@@ -1,0 +1,96 @@
+sensor.illumination_158d0001e0abd1:
+  name:
+  platform: xiaomi_aqara
+  unique_id: lux158d0001e0abd1
+sensor.illumination_7811dcb21414:
+  name:
+  platform: xiaomi_aqara
+  unique_id: illumination7811dcb21414
+sensor.illumination_158d0001e0b1f6:
+  name:
+  platform: xiaomi_aqara
+  unique_id: lux158d0001e0b1f6
+binary_sensor.door_window_sensor_158d0002251481:
+  name:
+  platform: xiaomi_aqara
+  unique_id: status158d0002251481
+binary_sensor.switch_158d0001be5c07:
+  name:
+  platform: xiaomi_aqara
+  unique_id: status158d0001be5c07
+binary_sensor.switch_158d0001be5b44:
+  name:
+  platform: xiaomi_aqara
+  unique_id: status158d0001be5b44
+binary_sensor.motion_sensor_158d0001e0b1f6:
+  name:
+  platform: xiaomi_aqara
+  unique_id: status158d0001e0b1f6
+binary_sensor.motion_sensor_158d0001e0abd1:
+  name:
+  platform: xiaomi_aqara
+  unique_id: status158d0001e0abd1
+light.gateway_light_7811dcb21414:
+  name:
+  platform: xiaomi_aqara
+  unique_id: rgb7811dcb21414
+media_player.salon:
+  name:
+  platform: cast
+  unique_id: 7a652884-3a6f-5a20-7f43-9418dd592cf1
+media_player.chromecast_cuisine:
+  name:
+  platform: cast
+  unique_id: 7fd04eb9-469d-05c6-8f5e-8af947ecd95a
+media_player.chromecast_soussol:
+  name:
+  platform: cast
+  unique_id: ad5f778a-6c5f-ac68-a28e-26bafe659460
+media_player.cuisine:
+  name:
+  platform: cast
+  unique_id: 03420904-47d0-2bee-ba51-c0c4cc6fda16
+media_player.bureau:
+  name:
+  platform: cast
+  unique_id: 502674bf-ce72-e835-60b3-b63e06257b4d
+media_player.shield:
+  name:
+  platform: cast
+  unique_id: 4b30174e-6e61-546a-7560-e583b835a382
+light.jumeaux:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:02:96:9b:90-0b
+light.salon_1:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:02:1f:dd:65-0b
+light.salon_2:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:02:97:6e:87-0b
+light.coralie_lit:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:02:ef:0f:8e-0b
+light.table_1:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:03:7b:13:e6-0b
+light.table_2:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:02:bc:6e:40-0b
+light.coralie:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:02:96:ad:d4-0b
+sensor.nashville_battery_state:
+  name:
+  platform: ios
+  unique_id: state_Nashville
+sensor.nashville_battery_level:
+  name:
+  platform: ios
+  unique_id: level_Nashville

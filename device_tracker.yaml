@@ -1,0 +1,4 @@
+- platform: nmap_tracker
+  hosts: !secret nmap_hosts
+  consider_home: 600
+  interval_seconds: 15

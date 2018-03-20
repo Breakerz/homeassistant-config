@@ -1,0 +1,36 @@
+- platform: kodi
+  name: kodishield
+  host: !secret kodi_host
+  username: !secret kodi_username
+  password: !secret kodi_password
+
+- platform: cast
+  name: chromecastshield
+  host: !secret kodi_host
+
+- platform: braviatv
+  name: tvsony
+  host: !secret tvsony_ip
+
+- platform: cast
+  name: google home 1
+  host: !secret cast_gh1
+
+- platform: cast
+  name: google home 2
+  host: !secret cast_gh2
+
+- platform: cast
+  name: google home 2
+  host: !secret cast_gh3
+
+- platform: cast
+  name: chromecast 1
+  host: !secret cast_cc1
+
+
+- platform: cast
+  name: chromecast 2
+  host: !secret cast_cc2
+
+

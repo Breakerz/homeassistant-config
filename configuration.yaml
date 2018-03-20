@@ -1,0 +1,104 @@
+homeassistant:
+
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secret latitude
+  longitude: !secret longitude
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 104
+  unit_system: metric
+  time_zone: America/Toronto
+  # Customization file
+  customize: !include customize.yaml
+
+
+frontend: !include frontend.yaml
+config:
+
+http:
+  # Secrets are defined in the file secrets.yaml
+  # api_password: !secret http_password
+  # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+  # base_url: example.duckdns.org:8123
+
+# Checks for available updates
+# Note: This component will send some information about your system to
+# the developers to assist with development of Home Assistant.
+# For more information, please see:
+# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
+updater:
+  # Optional, allows Home Assistant developers to focus on popular components.
+  # include_used_components: true
+
+# Discover some devices automatically
+#discovery:
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time.
+
+recorder:
+  purge_interval: 0
+  
+history:
+
+# View all events in a logbook
+logbook:
+
+# Enables a map showing the location of tracked devices
+map:
+
+# Track the sun
+sun:
+
+#iphone app
+ios:
+
+xiaomi_aqara:
+  discovery_retry: 5
+  gateways:
+    - key: !secret xiaomi_key
+
+
+# Weather prediction
+sensor:
+  - platform: yr
+
+# Text to speech
+tts:
+  - platform: google
+    language: 'fr'
+
+  - platform: amazon_polly
+    aws_access_key_id: !secret aws_access_key_id
+    aws_secret_access_key: !secret aws_secret_access_key
+    #profile_name: AWS_PROFILE
+    region_name: 'us-east-1'
+    voice: Chantal
+
+hue:
+  bridges:
+    - host: !secret hue_ip
+      allow_hue_groups: false
+      filename: phue.conf
+
+mqtt:
+  broker: !secret mqtt_broker
+  port: 1883
+
+camera:
+  - platform: ffmpeg
+    name: Cam
+    input: !secret camera_input
+
+# Cloud
+cloud:
+
+media_player: !include media_player.yaml
+device_tracker: !include device_tracker.yaml
+notify: !include notify.yaml
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
