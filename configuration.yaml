@@ -31,6 +31,11 @@ updater:
   # Optional, allows Home Assistant developers to focus on popular components.
   # include_used_components: true
 
+
+duckdns:
+  domain: !secret duckdns_domain
+  access_token: !secret duckdns_token
+
 # Discover some devices automatically
 #discovery:
 
@@ -101,6 +106,7 @@ device_tracker: !include device_tracker.yaml
 notify: !include notify.yaml
 shell_command: !include shell_command.yaml
 switch: !include switches.yaml
+light: !include lights.yaml
 group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml

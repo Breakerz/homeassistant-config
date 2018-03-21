@@ -1,0 +1,128 @@
+update_kodi_library:
+  alias: Update Kodi Library
+  sequence:
+   - service: media_player.kodi_call_method
+     data:
+       entity_id: media_player.kodishield
+       method: VideoLibrary.Scan
+
+#############################################
+tv_insignia_sleep_5minutes:
+  sequence:
+  - service: switch.turn_on
+    data:
+      entity_id : 'switch.insignia_sleep'
+  - service: switch.turn_on
+    data:
+      entity_id : 'switch.insignia_sleep'      
+
+#############################################
+boot_event:
+  sequence:
+    - service: climate.set_operation_mode
+      data:
+        entity_id: climate.solarium_thermostat
+        operation_mode: "off"
+
+#############################################
+set_away_mode:
+  sequence:
+    - service: script.close_led
+    - service: scene.turn_on
+      data :
+        entity_id: scene.byebye
+    - service: notify.pushbullet
+      data:
+        title: byebye
+        message: Away mode activated
+
+set_bath_mode:
+  sequence:
+    - service: input_boolean.turn_on
+      data:
+        entity_id: input_boolean.mode_bath
+    - service: light.turn_off
+      data:
+        entity_id: light.lumiere_miroir_level
+
+close_led:
+  sequence:
+    - service: switch.turn_on
+      data:
+        entity_id: switch.led_red
+    - service: switch.turn_on
+      data:
+        entity_id: switch.led_white
+    - service: switch.turn_on
+      data:
+        entity_id: switch.led_red
+    - service: switch.turn_on
+      data:
+        entity_id: switch.led_power
+
+
+
+#############################################
+wakeme:
+  sequence:
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.mode_night
+    - service: light.turn_on
+      data:
+        entity_id: light.gateway_light_7811dcb21414
+        color_name: green
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.cuisine
+        volume_level: 0.1
+    - service: media_player.play_media
+      data:
+        entity_id: media_player.cuisine
+        media_content_id : !secret url_wakeup_music
+        media_content_type : "MUSIC"
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.cuisine
+        volume_level: 0.1
+    - delay: 00:00:30
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.cuisine
+        volume_level: 0.2
+    - delay: 00:01:00
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.cuisine
+        volume_level: 0.3
+    - service: light.turn_on
+      data:
+        entity_id: light.lavabo_level
+        brightness: 20
+    - service: light.turn_on
+      data:
+        entity_id: light.ilot_level
+        brightness: 20
+    - delay: 00:01:00
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.cuisine
+        volume_level: 0.5
+    - delay: 00:15 # 15 minutes
+    - service: light.turn_on
+      data:
+        entity_id: light.lavabo_level
+        brightness: 100
+    - service: light.turn_on
+      data:
+        entity_id: light.ilot_level
+        brightness: 100
+    - delay: 00:05 # 5 minutes
+    - service: light.turn_on
+      data:
+        entity_id: light.lavabo_level
+        brightness: 180
+    - service: light.turn_on
+      data:
+        entity_id: light.ilot_level
+        brightness: 180
