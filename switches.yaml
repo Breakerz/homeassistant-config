@@ -1,0 +1,329 @@
+
+- platform: transmission
+  host: !secret miami_host
+
+
+- platform: wake_on_lan
+  name: Miami
+  host: !secret miami_host
+  mac_address: !secret miami_mac
+  turn_off:
+      service: shell_command.hibernate_miami_cmd
+
+
+- platform: mqtt
+  name: veilleuse
+  state_topic: "stat/sonoff3/POWER"
+  command_topic: "cmnd/sonoff3/POWER"
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: true
+  optimistic: false
+
+- platform: mqtt
+  name: "Prise sous galerie avant"
+  state_topic: "esp32/state/2"
+  command_topic: "esp32/set/2"
+  payload_on: "0"
+  payload_off: "1"
+  retain: true
+  optimistic: false
+
+- platform: mqtt
+  name: "Prises Galerie et Solarium"
+  state_topic: "esp32/state/3"
+  command_topic: "esp32/set/3"
+  payload_on: "0"
+  payload_off: "1"
+  retain: true
+  optimistic: false
+
+
+- platform: mqtt
+  name: solarium_heater
+  state_topic: "stat/sonoff10/POWER"
+  command_topic: "cmnd/sonoff10/POWER"
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: true
+  optimistic: false
+
+- platform: mqtt
+  name: deco_ext
+  state_topic: "stat/sonoff5/POWER"
+  command_topic: "cmnd/sonoff5/POWER"
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: true
+  optimistic: false
+
+- platform: tplink
+  host: !secret tplink_host_bureau
+- platform: tplink
+  host: !secret tplink_host_entree_int
+
+
+- platform: tplink
+  host: !secret tplink_host_entree_ext
+
+
+- platform: tplink
+  host: !secret tplink_host_atelier
+
+
+
+# - platform: command_line
+#   switches:
+#     lit:
+#       command_on: "~/.homeassistant/scripts/bedlight_switch --on"
+#       command_off: "~/.homeassistant/scripts/bedlight_switch --off"
+#       command_state: "~/.homeassistant/scripts/bedlight_state"
+#       value_template: '{{ value == "1" }}'
+#       friendly_name: Lumiere Chambre
+
+- platform: broadlink
+  name: chambre
+  host: !secret broadlink_sp2_host
+  mac: !secret broadlink_sp2_mac
+  type: sp2
+  friendly_name: 'chambre'
+
+- platform: broadlink
+  host: !secret broadlink_rm_mini_host_salon
+  mac:  !secret broadlink_rm_mini_mac_salon
+  type: rm_mini
+  timeout: 15
+  switches:
+  # Will work on most Phillips TVs:
+    led_sous_armoire_power:
+      friendly_name: "led_power"
+      command_on: 'JgBQAAABJpMSExUQFBETERUQEhMTERYPEjgVNBY0EjcWNBU0EjgVNRUPFg8SExUPFg8SExU0EhMWNBE4FjQVNBI3FjQWDxY0FQAFFgABKUYWAA0FAAAAAAAAAAA='
+      command_off: 'JgBQAAABJpMSExUQFBETERUQEhMTERYPEjgVNBY0EjcWNBU0EjgVNRUPFg8SExUPFg8SExU0EhMWNBE4FjQVNBI3FjQWDxY0FQAFFgABKUYWAA0FAAAAAAAAAAA='
+
+    led_sa_white:
+      friendly_name: "led_white"
+      command_on: 'JgBQAAABJ5IUERITExEUERMSFQ8UERMTEjcSNxQ2EzYSOBM3EzYSNxQRExITNhITExIUERI3FBESNxQ2ExEUNhQ2ETgUERI3FAAFFwABKEgSAA0FAAAAAAAAAAA='
+
+
+    led_sa_green:
+      friendly_name: "led_green"
+      command_on: 'JgBQAAABKo8WDxITFg8WDxEUFQ8WDxITFTQSNxY0FTUROBU1FDUSNxY0Fg8WDxE4FjQVDxY0FBEUEBI4FTUTERUQFTQWDxU1FQAFFgABKUYSAA0FAAAAAAAAAAA='
+
+    led_sa_blue:
+      friendly_name: "led_blue"
+      command_on: 'JgBQAAABJ5IUERITEhIUERMSExEUERMSEzYSOBQ2EzYSNxQ2EzcROBQ2ExEUNhMRFBETEhM3ERQSEhQ2ExEUNhM2EjgUERI3FAAFFwABKEgSAA0FAAAAAAAAAAA='
+
+    led_sa_red:
+      friendly_name: "led_red"
+      command_on: 'JgBQAAABJpIXDhITEhIXDhMSExIWDxQRFTQSNxY0FTQSOBM2FjQSNxYPEhMTERY0FjQSExU0EhMTNhI4EzYWDxYPEjcWDxI3FgAFFQABKkYSAA0FAAAAAAAAAAA='
+
+    led_sa_fade7:
+      friendly_name: "led_fade7"
+      command_on: 'JgBQAAABJpMSExQQFBESExMSFBERFBQQEzcTNhI4EzYTNxE4EzcTNhI4EzYTNRMUExEVEBITExEUERITExITNxM2EjcUNhQ1EgAFGQABJkoTAA0FAAAAAAAAAAA=='
+
+    led_sa_mauve:
+      friendly_name: "led_mauve"
+      command_on: 'JgBQAAABJZQSExMRFBESExMRFg8TEhMSEjgSNxI3FDYTNhM3EzUVNhITEjcTEhM2EjgTEhITFBAUNhMRFDYTEhISEjgTNxM2EgAFGQABJkoTAA0FAAAAAAAAAAA=='
+    led_sa_turquoise:
+      friendly_name: "led_turquoise"
+      command_on: 'JgBQAAABKJEVEBMSExITEhEUExEUERITEzYSNxQ2FDYROBM3FDUSNxM3ExITNxM2EjcUERITExITERI4ExIRFBISFDYSNxI4EwAFGAABJ0gSAA0FAAAAAAAAAAA=='
+    led_sa_brightness_up:
+      friendly_name: "led_sa_brightness_up"
+      command_on: 'JgBQAAABJpMSExMSExETEhQRFRASExMRFTUVNBI4EzYUNhI3FDYUNRITExITNxM2EjcVEBI3FRATNxQ2ExEUERITFDUSEhQ2EgAFGQABJkoUAA0FAAAAAAAAAAA=='
+    led_sa_brightness_down:
+      friendly_name: "led_sa_brightness_down"
+      command_on: 'JgBQAAABJpMTEhQRExIRFBMRExISExISFDYTNhI4EzcROBI3FTUTNhI4FBEROBM3EzYSExI3EhMTEhI4EhIVEREUEzUSExM2EwAFGQABJkkSAA0FAAAAAAAAAAA=='
+    led_sa_flash:
+      friendly_name: "led_flash"
+      command_on: 'JgBQAAABJpQRFBQQFRASExMRFBESExMRFDYTNxE4FDYTNhI3FTUUNhI3FzMUEBU1FBETERITFBESExITEzYSExM2EjgTNxM2EgAFGQABJ0gWAA0FAAAAAAAAAAA=='
+    led_sa_quick:
+      friendly_name: "led_quick"
+      command_on: 'JgBQAAABJ5ITERATEhIREhATExMRExEUETgRNRg0EjgROBM3EjcTNhU1EzYTNxITETgSExITFBAUERITExITNhMSEzUUNxI3FQAFFQABKUgSAA0FAAAAAAAAAAA=='
+    led_sa_slow:
+      friendly_name: "led_slow"
+      command_on: 'JgBIAAABJpMSExMSExESFBISExIRFBMREzcTNhI4EzcVNBI3EzcTNhM3EzcSEhUQEjcWDxITExEUERITEzcROBMSEjcVNRQ1EgANBQ=='
+
+    insignia_power:
+      command_on: 'JgBYAAABKZIVEBQ2FDQWEhYPFhAUERY1FTUVEBYzFxAUEhUQFBIVEBQ2FjUTNxU1FhAVEBQSExIWEBUQFRAWEBU1FjUVMRk1FgAFcQABJ0gVAAywAAEoSBYADQU======'
+
+    insignia_volume:
+      command_on : 'JgBYAAABKZIVEBQ2FDQWEhYPFhAUERY1FTUVEBYzFxAUEhUQFBIVEBQ2FjUTNxU1FhAVEBQSExIWEBUQFRAWEBU1FjUVMRk1FgAFcQABJ0gVAAywAAEoSBYADQU======'
+      command_off : 'JgBYAAABKJITEhQ2FjUVEBYQFRAWEBU1FTUUEhM3FBIVEBQRFhATEhY1FRAUNhY1FRAWEBMSFRAUEhU1FBIVEBY0FDcVNRY1FgAFbwABKkgVAAyuAAEpRxYADQU======'
+
+    insignia_channel:
+      command_on : 'JgBQAAABKpEVEBQ3FTUVEBYQFRAWEBM3FTUWEBM3FhATEhYPFBITEhQSFTUUERQ3FRAWEBUQFBITNxUQFDcVEBQ2FjUTNxY1EwAFdAABJkoUAA0FAAAAAAAAAAA======'
+      command_off : 'JgBUAAoABFoAASiSFw8UNhU1FREUERURFBEVNhQ2FBEVNhQRFhAUERQRFREUNhU2Fg8VNRURFBEVERQRFREUERQ0GQ8UNhU2FDYUNhUABXIAASpHFAANBQAAAAA======'
+
+    insignia_hdmi:
+      command_on : 'JgBSAAABKJIVERQ2FTUVERQRFREUERU1FTYUERU2FBEVEBURFBEVERQRFREUERURFDYUERU2FBEVNRU2FDYVNhQRFDEaERQ2FQAFcgABKEkUdA0ADQUAAAAAAAA======'
+
+    insignia_tv:
+      command_on : 'JgBYAAABKZEXDhc0FjQWEBYPFg8XDxczFzQWDxY0Fw8XDhcPFg8XDxY0FjQXNBY0Fw8VEBczFw8WDxcPFg8XDxY0FzMXDxY0FwAFcAABKkYXAAytAAEqRxYADQU======'
+
+    insignia_0:
+      command_on : 'JgBQAAABK5AWDxczFzQXDhYQFg8WEBY0FzMXDxY0FhAVEBYPFhAXDhY1Fg8XDxY0Fg8WEBYPFw8WDxY0FzQWDxY1FjQWNBY1FgAFcQABKkYXAA0FAAAAAAAAAAA======'
+
+    insignia_1:
+      command_on : 'JgBQAAABK5AXDhczFzQXDhcPFw4XDxY0FzMXDxczFw8WDxcPFg8XDhcPFw4XDxcOFw8WDxcPFg8XMxc0FjQXMxc0FjQXMxc0FwAFcAABKkYXAA0FAAAAAAAAAAA======'
+
+    insignia_2:
+      command_on : 'JgBQAAABKpAXDxY0FzMXDxcOFw8WDxczFzQXDhc0Fg8XDxYPFw4XDxczFw8WDxcPFg8XDhcPFw4XDxY0FzMXNBczFzMXNBczFwAFcAABKkYYAA0FAAAAAAAAAAA======'
+
+    insignia_3:
+      command_on : 'JgBQAAABKJIVEBY1FTUUEhUQFRAWEBU1FDcTEhU1FBITEhQSExIUEhMSFDYUEhMSFBITEhQSExIUNhQSEzcUNxM3EzcUNxM3FAAFcwABJ0oTAA0FAAAAAAAAAAA======'
+
+    insignia_4:
+      command_on : 'JgBQAAABKpAXDxczFzMXDxcOFw8XDhc0FjQXDhc0Fw4XDxYPFw8WDxczFzQWDxcPFg8XDhcPFw4XDxcOFzQWNBczFzQWNBczFwAFcAABK0YXAA0FAAAAAAAAAAA======'
+
+    insignia_5:
+      command_on : 'JgBQAAABKZEWEBU1FjQWEBYPFhAVEBY0FjUWDxY1FRAWEBUQFg8WEBYPFhAVNRYQFRAWDxYQFg8WNRU1Fg8WNRY0FjQWNRY0FgAFcQABKkcWAA0FAAAAAAAAAAA======'
+
+    insignia_6:
+      command_on : 'JgBUAAABKpAWEBU1FTYVEBUQFhAVEBY1FTUVEBY1ExIUEhMSFBITExM2FBITNxQSExIUERQSExIUEhM3FBITNxQ2FDcTNxQ2FAAFcwABJ0oTAAxNCwANBQAAAAA======'
+
+    insignia_7:
+      command_on : 'JgBQAAABKZMUERU2FDYVERMSExIUEhQ2FDcUERM3FBITEhQSFBEVERMSEzcVNhQRFREUERUQFRETNxURFBEVNRU2EzcVNRU2FQAFcgABJ0gVAA0FAAAAAAAAAAA======'
+
+    insignia_8:
+      command_on : 'JgBYAAABKJIWEBU1FjQXDxYPFw8WDxczFzQWDxc0Fg8WDxcPFg8XDxY0FzMXNBYPFw8VERYPFg8WDxYQFg8XNBU1FTUWNRU1FgAFcQABKUcWAAyuAAEqRxYADQU======'
+
+    insignia_9:
+      command_on : 'JgBcAAkAAh0LAAkTAAEokhURFDYVNRURFBEVERQRFTYUNhQRFTYUERURFBEVEBURFBEVERQRFTYUERUQFREUERU2FDYVNRURFDYVNRU2FDYVAAVyAAEoRxYAAT0LAA0FAAAAAAAAAAAAAAAA======'
+
+    insignia_sleep:
+      command_on : 'JgBMABMSFDYUNxMSFBITExMSEzcTNxQSEzcUEhMSFBEUEhMSFDcTNxQRFBITNhUSExIUEhMSFBEUNxM3FBITNxM3FDcTAAV0AAEnSRQADQUAAAAAAAAAAAAAAAA======'
+
+    insignia_dot:
+      command_on : 'JgBcAAABKJIVERQ2FDYVERQRFREUERU1FTYWDxU2FBEVEBURFBEVERQ2FREUERUQFREUERU2FBEVERQ2FDYVNhQ2FTUVERQ2FQAFcgABKEkUAAyvAAEoSRQADHwEAA0FAAAAAAAAAAAAAAAA======'
+
+    #
+    # sonytv_power:
+    #   friendly_name: "sonytv_power"
+    #   command_on: 'JgCoAFETKRIWESoRFRIoExUTFhEqERQTFhIWERQAA09QEygTFBMoExUTKBMTFBQTKBMVExQTFBMVAANOURIoExQTKBQUEygTExQUFCcUFBMTFBQUFAADU1ETKBMTFCgTFBMoExUTFBMoExQTFhIUExQAA1RQEygTFBMoFBQTKBMUExQUJxQUExQTFBQUAANTURMoExYRKBMUEygTFRMUEygTFBMVExQTFAANBQ=='
+    #   command_off: 'JgCoAFETKRIWESoRFRIoExUTFhEqERQTFhIWERQAA09QEygTFBMoExUTKBMTFBQTKBMVExQTFBMVAANOURIoExQTKBQUEygTExQUFCcUFBMTFBQUFAADU1ETKBMTFCgTFBMoExUTFBMoExQTFhIUExQAA1RQEygTFBMoFBQTKBMUExQUJxQUExQTFBQUAANTURMoExYRKBMUEygTFRMUEygTFBMVExQTFAANBQ=='
+    #
+    # sonytv_volume_up:
+    #   friendly_name: "sonytv_volume_up"
+    #   command_on: 'JgBwAE8UFRIpEhYSFRIpEhMVFRIpEhUSFhIVEhUAA2BSEhYSKRIVEhYRKRIWEhUSKRIWERYSFRIVAANhURMVEioRFhEWEikSFRITFSgSFhIVEhYRFgADZk8UFRMoExUSFRIqERUTFRIpEhUSFRMVEhUADQUAAAAAAAAAAA=='
+    # sonytv_volume_down:
+    #   friendly_name: "sonytv_volume_down"
+    #   command_on: 'JgBwAFESKRIpEhUSFhIpEhUSFhEpEhUTFRIVEhYAA01PFCcUKRIWEhUSKRIVEhYSKRIVEhUSFxEVAANNURMoEygTFhEVEikSFRMVEicUFRIWEhUSFQADU1ESKRIpEhYSExQpEhUSFRMoExUSFhEVExUADQUAAAAAAAAAAA=='
+    # sonytv_1:
+    #   friendly_name: "sonytv_1"
+    #   command_on: 'JgB2AAoHCAAFYU8UFRMVEhUSFRMWERYRFRMoExUSFRIVExUAA4hSERYSFRITFBQUExQVEhYSJxQVEhUSFhIUAAOJURMVEhUSFhIVEhQTFhIVEikSFRIWEhUSFQADjk8UFRIWEhUSFhEWEhUSFRIqERYSFhEXERUADQUAAA=='
+    # sonytv_2:
+    #   friendly_name: "sonytv_2"
+    #   command_on: 'JgBwAFESJxQUFBQTFBMUExQUFBMoExQUExQTFBQAA3ZREigTFBQUExMVFBMUExMUKBMUFBQTFBQTAAN2UhInFBQTExQVExQTFBMVEygTExQTFRMUFAADe08UKRIVExUSFRIVExMUFRInFBYSFRIVEhYADQUAAAAAAAAAAA=='
+    # sonytv_3:
+    #   friendly_name: "sonytv_3"
+    #   command_on: 'JgCMAFESFRIpExYRFRIUFBUSFRIpEhUTExQTFBUAA3VPFRQTKBMVEhQUFBMUExQUJxQTFBQTFBQTAAN2UhIUEycUFBQTFBQTFBQTFCcUFBMUFBQTFAADe1ATFhIoExMUExQVExQTExUmFBQUExQUFBQAA3tREhMUKBMVExQTFRIUFBMUJxQTFBQUFBMTAA0FAAAAAAAAAAAAAAAA=='
+    # sonytv_4:
+    #   friendly_name: "sonytv_4"
+    #   command_on: 'JgBwAFATKBQnFBQTExQVExQTFBMnFBQUFBMTFBQAA2JREycUKRIUExQUFBMUExQUKBMUExQTFBQUAANiUBMnFCgTFBQUExMUFBQTFCcUFBMUFBQTFAADZ1ISKBMnFBMUExQUFBQTFBMoFBQTFBMUFBQADQUAAAAAAAAAAA=='
+    # sonytv_5:
+    #   friendly_name: "sonytv_5"
+    #   command_on: 'JgCMAFATFBQTFCcUFBMUFBQTFBMnFBUTExQTFBQAA3ZQExUTFBMnFBQTFBQUFBIUKRIUFBMUFBMVAAN1URMUExMUKRIVExQTFBMUFCcUExQUExUTFAADe1ATFRMUEygTFBMVExQTExQnFBQUFBMUExUAA3pRExQTFBMoFBMUFBMUFBQTJxQUExQUExQUAA0FAAAAAAAAAAAAAAAA=='
+    # sonytv_6:
+    #   friendly_name: "sonytv_6"
+    #   command_on: 'JgBwAFETJxQUEygTFBMUFBMUFBMoExQUFBMTEhcAA2JPFCcUExQoExQUFBMTFBUTKBMTFBQUFBMTAANjUBQnExQUKBMUExQTFBQUEikTExQVExMUFAADZ1ETKBMTFCcUFRIVExQTFBMoFBQTExQUFBMADQUAAAAAAAAAAA=='
+    # sonytv_7:
+    #   friendly_name: "sonytv_7"
+    #   command_on: 'JgBwAFESFRIqESoRFhIWERUTFRIqERUSFhIVEhUAA2FSERYSKRIpEhUSFRIUFBUSKRIVExUSFRIVAANhUhIUEykSKRIVEhYSFRIVEikTExQUExUTFAADZ1IRFhIpEicUFBMVEhQUExQpEhUSFhIUExQADQUAAAAAAAAAAA=='
+    # sonytv_8:
+    #   friendly_name: "sonytv_8"
+    #   command_on: 'JgCMAFISJxQoEygTFBMUFBMUFBMoExYSExQVEhQAA09PFCcUJxQpEhQTFBQTFBQUJxQVEhMUFBQVAANMURMpEigTKRIWEhUSExQWEikSFRIWEhMUFQADU08UKRIqEScUFRIWEhUSFRIpEhYSFRIVEhYAA1JREikSKhEpExYRFRIVExUSKRIVEhUTFRIVAA0FAAAAAAAAAAAAAAAA=='
+    # sonytv_9:
+    #   friendly_name: "sonytv_9"
+    #   command_on: 'JgCoAFESFhIVEhUSKRIUFBMUFRMnFBUSExQVExUAA3RSEhQTFBQTFCcUExQUFBQTKBMTFBQUExQVAAN1TxQUFBUSFRIpEhUTFRIVEikSFRMVEhUSFQADelAUFRIVEhYSKRIVEhYRFhIqERUSFhEWEhUAA3pREhUTFRIVEioRFhIVEhYRKhEWEhYRFhEWAAN5URMWERUSFhIoExUSFRIWEikSFRITFBYSEwANBQ=='
+    # sonytv_0:
+    #   friendly_name: "sonytv_0"
+    #   command_on: 'JgCOAFATKBMUFBQTJxQTFBQUFBMnFBQTFRMUExTeCwACeVETJxQUExMUKBMUFBQTFBMnFBQUFBMTFBQAA2JREycUFBMUEygUFBMTFBQUJxQTFBQTFBQUAANnURInFBYSFBMoExQTFBQTFCcUFRMTFBQTFAADaFESJxQTFBQUKRITFBUSFhIpEhUSFRIWEhUADQUAAAAAAAAAAAAA=='
+    # sonytv_dot:
+    #   friendly_name: "sonytv_dot"
+    #   command_on: 'JgCqAFESKRIVEigTKRIoFBUSExQnFCgTJxQUFCcUFRIUEycAAndTECgUExQoEycUJxQTFBQUJxQnFCcUExQnFBMUFBQnAAJ3TxQnFBMUJxQoEycUFRMTFCcUJxQpEhQTJxQUFBUSKQACelAUJxQUEykSKBMnFBMUFBQnFCcUJxQUEycUExQVEycAAnxPFCkSFRIpEygTJxQVEhMUKRIpEikSFBQnFBQTFRIpAA0FAAAAAAAAAAAAAAAAAAA=='
+    # sonytv_enter:
+    #   friendly_name: "sonytv_enter"
+    #   command_on: 'JgBwAFATJxQUEygTFRMUEygTKBMoExMUFRMUExMAAzxQEygTFBQnFBQTExQnFCgTJxQVExMUFBMVAAM6URIoExUTKBMUExQTKBMoEygUFBMUExQUFAADQE8UKBMUEygTFBQTFCgTKBMoExQTFRMTFBYADQUAAAAAAAAAAA=='
+    # sonytv_ch_up:
+    #   friendly_name: "sonytv_ch_up"
+    #   command_on: 'JgCMAFETFBMTFBUTFBMoExQTFRMoExQUExQUExQAA3ZQFBMTFRMTFBMUKBQUExQTKBMWERUTFBMUAAN2UBQUExMUFBQUEygTFBMUFCcUExQTFBUTEwADfFATFRMUExQTExQnFBUTExQnFBQUExQUExQAA3tRExQTFBMUFBQTKBMTFBQUKBMUExMUFRMUAA0FAAAAAAAAAAAAAAAA=='
+    # sonytv_ch_down:
+    #   friendly_name: "sonytv_ch_down"
+    #   command_on: 'JgCQAFATJxQUFBQTFBMnFBQUFBMnFBQTFBQUExQAA2JREycUFBMTFBQUKBMUExQTJxQUFBQTFBMUAANiURMoExMUFRMTFCcUFBMVEygTFBMUExUTFAADZ1ESKBQTFBQTFBQnFBMUFBMoExQUFBMUExQAA2hQEycUFBMVExQTKRITFBQUKBMUExQUFBMUAAqgCQANBQAAAAAAAAAA=='
+    # sonytv_mute:
+    #   friendly_name: "sonytv_mute"
+    #   command_on: 'JgCoAFATFBMVEygTFBMoExQTFRMnFBQTFBMVExMAA2NQExUTFBMoExQTKBMVExMUKBMXEBUTExQUAANiURMUExMUKRIVEygTFBMUEygTFBQUExQTFQADZ1ATFRMTFCgTFBMnFBQUFBMoExMUFQ8YExMAA2hQFBMUFRMnFBQTKBMUExQUJxQTFBQTFBQUAANnTxQUFBMUJxQUEygUExQUEygTFRMUExQTFAANBQ=='
+    # sonytv_home:
+    #   friendly_name: "sonytv_home"
+    #   command_on: 'JgCMAFETFBMUFBQTFBMUFCgTKBMoExQTExQVExQAA2JQExQUFBIUFBQUExQoEycUKBMUExUTFBMUAANiTxQUFBQTFBQUExMUJxQoEygTFRMTFBQTFAADaFATFBMVExQTFBMUFCgTJxQoExQTExQVExQAA2dRExMUFBMUFBQTFBMoFCcTKBMVExMUExQUAA0FAAAAAAAAAAAAAAAA=='
+    # sonytv_return:
+    #   friendly_name: "sonytv_return"
+    #   command_on: 'JgDMAFIRKBQoExQTFBMUFCcSFhMoEygTKBMUEygTFBQTFCgAAolREygTKBMTFBUTFBMoExMUKBMnFCcUFRMnFBQTFBMoAAKKUBMoFCcTFBQUExQTKRIVEygTJxIqExQTKBIUFBQUKAACj1ATKBMoExQTFRMTFCgTExQoEycUKBMVBjUTFBMUEygAAo9QEykTKBMUExQTFRMoExQTJxQnFCgTFBMoExUTFBMoAAKPUBMoEycUFRMUExQTKBMVEycUJxQoExQTJxQTFBQUJwANBQAAAAAAAAAAAAAAAA=='
+    # sonytv_options:
+    #   friendly_name: "sonytv_options"
+    #   command_on: 'JgDMAFAUFRIoEygTFBMoFCcUExQoEygTKBMTBzUUExQUEycAAnVSExQUJxMpExQTKBMnFBQTKBMoEykSFBQoExQTFBMpAAJ1URIVEygTKBMUEycUKBMVEycUKBMnFBQTJxQTFBQUKAACe1ATFBMpEygTExQoEycUExQnFCcUKBMUFCgTFhEUFCcAAntRExQTKBMnFBQTKBQnFBMUJxQoEycUFBMnFBUTFBMoAAJ7UBMVEykSKBMTFCcUKBMUEygTKRIpEhUTJxQTFBQUKAANBQAAAAAAAAAAAAAAAA=='
+    # sonytv_display:
+    #   friendly_name: "sonytv_display"
+    #   command_on: 'JgBwAFETExQnFBQTJxQoEycUFBQnFBQTFBMUFBMAAztRExQTJxQTFCcUKBMoFBQTJxQTFBQUExQTAAM8UBMUEygTFRMnFCcUKBMUEycUFBMUFBQTEwADQVETExQnFBQTKBMnFCgTFBQnFBMUFBMUFBQADQUAAAAAAAAAAA=='
+    # sonytv_input:
+    #   friendly_name: "sonytv_input"
+    #   command_on: 'JgCMAFATJxQUFCgTFBMUEycUFRMoExMUExQUFBMAA09QFCcUFBMnFBQTFRMnFBMUJxQUExUTFBMTAANQUBMoExQTKBMVExQTJxQTFCcUFBQUExMUFQADU1ATKBMUFCcUExQUEycUFRMoExMUExQVExMAA1RREygTFBMoExQUFBMoExQTJxQVExMUExQUAA0FAAAAAAAAAAAAAAAA=='
+    # sonytv_pic_off:
+    #   friendly_name: "sonytv_pic_off"
+    #   command_on: 'JgCQAFATFAY1FCgTJxQoEycUFBMoExUSFRMUExUAAyZQExUTKBMnFCgTKBMnFBQTKBMVExQTFBMVAAMnUBMUEycUKBMoEygTKBMVEygTExQUExUTEwADLVATFRMoEygTJxQoEygTFBMoExQTFRMUExQAAyxRExQTKBQmFCgTKBMoExQTKBQUExQTFBQUAAJoCwANBQAAAAAAAAAA=='
+
+- platform: broadlink
+  host: !secret broadlink_rm_mini_host_cuisine
+  mac:  !secret broadlink_rm_mini_mac_cuisine
+  type: rm_mini
+  timeout: 15
+  switches:
+  # Will work on most Phillips TVs:
+    tv_phillips:
+      friendly_name: "Phillips Tv Power"
+      command_on: 'JgAcAB0dHB44HhweGx4cHR06HB0cHhwdHB8bHhwADQUAAAAAAAAAAAAAAAA='
+      command_off: 'JgAaABweOR4bHhwdHB4dHRw6HhsdHR0dOTocAA0FAAAAAAAAAAAAAAAAAAA='
+    tv_phillips_volume:
+      friendly_name: "Phillips Tv Volume"
+      command_on: 'JgA0ABscGh01HR0aGxwbHBscHDc3GxwbHRocAAsdHRobHDYcHRobHB0aGxwcNzcbGx0aHRoADQUAAAAA=='
+      command_off: 'JgA4AA8ACcocGxwbNxscGxwbHBsbHBs4NxwbHBo5GwALJBscGh03GxscGxwcGxwbGzg3GxscHDccAA0F='
+    tv_phillips_channel:
+      friendly_name: "Phillips Tv Channel"
+      command_on: 'JgAaABscNhwbHBscHRobHRo5NR0bHBscGxwbAA0FAAAAAAAAAAAAAAAAAAA=='
+      command_off: 'JgA0ABodGxw3GxwbHBscGxs4NxwbHBodGzgcAAsmHBscGzcbHBsbHRwbGjk3GxscGxwcNxwADQUAAAAA='
+    tv_phillips_mute:
+      friendly_name: "Phillips Tv Mute"
+      command_on: 'JgA0ABwcNhwcGxodGh0bHBwbGxwcNxscNjgcAAsiHBs3GxscGx0bHBscGh0bHBs4Gxw4NhsADQUAAAAA=='
+
+    tv_phillips_1:
+      friendly_name: "Phillips Tv 1"
+      command_on: 'JgA4ABscNhwbHBscHBsbHBwbHBscGxwbGxwcOBsACyQcGzYcGxwbHRscHBscGxscGxwcGx0aHjUcAA0F'
+
+    tv_phillips_2:
+      friendly_name: "Phillips Tv 2"
+      command_on: 'JgA0ABscNhwbHBscHBscGxscGxwcHBodHDc3AAtAHBs3Gx0bGxwbHBwbHRobHBscGxwcODcADQUAAAAA'
+
+    tv_phillips_3:
+      friendly_name: "Phillips Tv 3"
+      command_on: 'JgA4ABwbGxw4GhscGxwcGxwcGxwbHBscHDccGxwACyQcGxwbNxsbHBwcGh0bHBscHBscGxw3GxwcAA0F'
+
+    tv_phillips_4:
+      friendly_name: "Phillips Tv 4"
+      command_on: 'JgA0ABscNhwbHBsdGh0aHRscGxwbHBs4NhwdAAtAHBs2HBscHRscGhscHBsbHBsdGjk4GhsADQUAAAAA'
+    tv_phillips_5:
+      friendly_name: "Phillips Tv 5"
+      command_on: 'JgA0ABwbHBs2HBwbHBsbHBwbGx0cGxs4ODYcAAskHBsbHDgaHBsbHRscHBsbHBwbHDc2OBwADQUAAAAA'
+
+      #1 = JgA4ABscNhwbHBscHBsbHBwbHBscGxwbGxwcOBsACyQcGzYcGxwbHRscHBscGxscGxwcGx0aHjUcAA0F
+      #2 = JgA0ABscNhwbHBscHBscGxscGxwcHBodHDc3AAtAHBs3Gx0bGxwbHBwbHRobHBscGxwcODcADQUAAAAA
+      #3 = JgA4ABwbGxw4GhscGxwcGxwcGxwbHBscHDccGxwACyQcGxwbNxsbHBwcGh0bHBscHBscGxw3GxwcAA0F
+      #4 = JgA0ABscNhwbHBsdGh0aHRscGxwbHBs4NhwdAAtAHBs2HBscHRscGhscHBsbHBsdGjk4GhsADQUAAAAA
+      #5 = JgA0ABwbHBs2HBwbHBsbHBwbGx0cGxs4ODYcAAskHBsbHDgaHBsbHRscHBsbHBwbHDc2OBwADQUAAAAA
+      #6 =
+      #7 =
+      #8 =
+      #9 =
+      #0 =
+      # input =
+      # info
+      # last channel =

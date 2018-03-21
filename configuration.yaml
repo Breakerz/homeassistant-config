@@ -6,7 +6,7 @@ homeassistant:
   latitude: !secret latitude
   longitude: !secret longitude
   # Impacts weather/sunrise data (altitude above sea level in meters)
-  elevation: 104
+  elevation: 98
   unit_system: metric
   time_zone: America/Toronto
   # Customization file
@@ -99,6 +99,8 @@ cloud:
 media_player: !include media_player.yaml
 device_tracker: !include device_tracker.yaml
 notify: !include notify.yaml
+shell_command: !include shell_command.yaml
+switch: !include switches.yaml
 group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml

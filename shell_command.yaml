@@ -1,0 +1,5 @@
+
+hibernate_miami_cmd: !secret hivernate_miami_cmd #'ssh user@host sudo systemctl suspend'
+#backuphass: '/home/homeassistant/.homeassistant/scripts/backuphass.py'
+
+save_json: /home/homeassistant/.homeassistant/scripts/savejson.py /home/homeassistant/.homeassistant/files_sensors/db.json {{tag}} {{value}}
