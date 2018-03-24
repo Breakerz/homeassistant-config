@@ -9,7 +9,7 @@ homeassistant:
   elevation: 98
   unit_system: metric
   time_zone: America/Toronto
-  # Customization file
+
   customize: !include customize.yaml
 
 
@@ -65,11 +65,18 @@ xiaomi_aqara:
   discovery_retry: 5
   gateways:
     - key: !secret xiaomi_key
+#https://github.com/OpenZWave/open-zwave/wiki/Adding-Security-Devices-to-OZW
+#https://community.home-assistant.io/t/making-aeotec-z-wave-stick-static/3716/4 <- Symblink + trick pour la led qui flash
+#zwave:
+#  usb_path: /dev/zwave
+#  network_key: !secret zwave_network_key
 
-
-# Weather prediction
-sensor:
-  - platform: yr
+#google_assistant:
+#  project_id: !secret google_assistant_project_id
+#  client_id: !secret google_assistant_client_id
+#  access_token: !secret google_assistant_access_token
+#  agent_user_id: !secret google_assistant_agent_user_id
+#  api_key: !secret google_assistant_api_key
 
 # Text to speech
 tts:
@@ -93,13 +100,15 @@ mqtt:
   broker: !secret mqtt_broker
   port: 1883
 
-camera:
-  - platform: ffmpeg
-    name: Cam
-    input: !secret camera_input
 
 # Cloud
-cloud:
+#cloud:
+
+camera: !include cam.yaml
+input_datetime: !include input_datetime.yaml
+input_boolean: !include input_boolean.yaml
+sensor: !include sensors.yaml
+binary_sensor: !include binary_sensor.yaml
 
 media_player: !include media_player.yaml
 device_tracker: !include device_tracker.yaml
@@ -107,6 +116,8 @@ notify: !include notify.yaml
 shell_command: !include shell_command.yaml
 switch: !include switches.yaml
 light: !include lights.yaml
+climate: !include climate.yaml
 group: !include groups.yaml
+scene : !include scene.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml

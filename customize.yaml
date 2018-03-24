@@ -1,0 +1,169 @@
+light.coralie:
+  icon: mdi:emoticon-poop
+light.jumeaux:
+  icon: mdi:account-multiple
+light.laveusesecheuse:
+  icon: mdi:tshirt-crew
+  google_assistant_name: Laveuse
+switch.veilleuse:
+  friendly_name: veilleuse
+  google_assistant_name: veilleuse
+  icon: mdi:fan
+light.gateway_light_7811dcb21414:
+  friendly_name: Garde mangé
+media_player.tvsony:
+  google_assistant: false
+media_player.cuisine:
+  google_assistant: false
+light.salon:
+  google_assistant: false
+media_player.kodisalon:
+  google_assistant: false
+group.television_phillips:
+  google_assistant: false
+switch.phillips_tv_power:
+  icon: mdi:television
+  google_assistant_name: Télévision
+group.all_automations:
+  google_assistant: false
+group.all_devices:
+  google_assistant: false
+group.all_lights:
+  google_assistant: false
+group.all_scripts:
+  google_assistant: false
+group.all_switchs:
+  google_assistant: false
+switch.phillips_tv_channel:
+  icon: mdi:television
+  google_assistant: false
+switch.phillips_tv_mute:
+  icon: mdi:television
+  google_assistant: false
+switch.phillips_tv_1:
+  icon: mdi:television
+  google_assistant: false
+switch.phillips_tv_2:
+  icon: mdi:television
+  google_assistant: false
+switch.phillips_tv_3:
+  icon: mdi:television
+  google_assistant: false
+switch.phillips_tv_4:
+  icon: mdi:television
+  google_assistant: false
+switch.phillips_tv_5:
+  icon: mdi:television
+  google_assistant: false
+switch.phillips_tv_volume:
+  icon: mdi:television
+  google_assistant: false
+media_player.sony_bravia_tv:
+  icon: mdi:television
+automation.new_release_notifications:
+  icon: mdi:github-circle
+automation.test_huemqtt:
+  icon: mdi:remote
+switch.chambre:
+  hidden: true
+  google_assistant: false
+switch.bureau:
+  hidden: true
+  google_assistant: false
+switch.atelier:
+  hidden: true
+  google_assistant: false
+switch.entree:
+  hidden: true
+  google_assistant: false
+switch.entree_exterieur:
+  hidden: true
+  google_assistant: false
+sensor.motion_salle_bain:
+  hidden: true
+sensor.motion_cuisine1:
+  hidden: true
+sensor.motion_cuisine2:
+  hidden: true
+sensor.motion_cuisine4:
+  hidden: true
+sensor.motion_cuisine8:
+  hidden: true
+light.chambre_light:
+  friendly_name: Pot Masson
+  homebridge_name: Pot Masson
+  icon: mdi:ceiling-light
+light.bureau_light:
+  friendly_name: bureau
+  homebridge_name: bureau
+  icon: mdi:ceiling-light
+light.chevets:
+  icon: mdi:hotel
+light.lumiere_miroir_level:
+  friendly_name: Miroir
+  google_assistant_name: Miroir
+switch.solarium_heater:
+  friendly_name: Foyer Solarium
+  icon: mdi:fire
+switch.deco_ext:
+  friendly_name: Décoration Extérieur
+  icon: mdi:candycane
+automation.bathroom_motion_on:
+  icon: mdi:star
+automation.bathroom_motion_off:
+  icon: mdi:star-off
+script.boot_event:
+  hidden: true
+media_player.google_home_cuisine:
+  google_assistant: false
+media_player.google_home_bureau:
+  google_assistant: false
+media_player.google_home_salon:
+  google_assistant: false
+light.lavabo_level:
+  friendly_name: Lavabo
+  google_assistant_name: Lavabo
+light.ilot_level:
+  friendly_name: Îlot
+  google_assistant_name: Îlot
+light.couloir_level:
+  friendly_name: Couloir
+  google_assistant_name: Couloir
+switch.sonytv_power:
+  google_assistant: false
+switch.sonytv_ch_up:
+  google_assistant: false
+switch.sonytv_volume_down:
+  google_assistant: false
+switch.sonytv_volume_up:
+  google_assistant: false
+switch.led_power:
+  google_assistant: false
+switch.led_white:
+  google_assistant: false
+switch.led_green:
+  google_assistant: false
+switch.led_blue:
+  google_assistant: false
+switch.led_red:
+  google_assistant: false
+switch.led_turquoise:
+  google_assistant: false
+switch.led_mauve:
+  google_assistant: false
+switch.led_fade7:
+  google_assistant: false
+switch.led_flash:
+  google_assistant: false
+switch.led_quick:
+  google_assistant: false
+switch.led_slow:
+  google_assistant: false
+switch.led_sa_brightness_down:
+  google_assistant: false
+switch.led_sa_brightness_up:
+  google_assistant: false
+light.table_1:
+  icon: mdi:ceiling-light
+light.table_2:
+  icon: mdi:ceiling-light

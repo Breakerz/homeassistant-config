@@ -1,1 +1,260 @@
-#bleh
+#default_view:
+#  view: yes
+#  entities:
+#    - group.mylight
+#    - group.myswitch
+
+home_view: #Future default view=============================
+  view: true
+  control: hidden
+  name: home
+  icon: mdi:home
+  entities:
+    - device_tracker.iphone_patricia
+    - device_tracker.iphone_patrick
+    - sensor.home_temperature
+    - scene.byebye
+    - group.mode_group
+
+
+chambre_view:
+  view: true
+  control: hidden
+  name: chambre
+  icon: mdi:hotel
+  entities:
+    - light.chambre_light
+    - light.chevets
+    - group.wakeup_group
+
+cuisine_view:
+  view: true
+  name: cuisine
+  control: hidden
+  icon: mdi:food-fork-drink
+  entities:
+    - light.table_1
+    - light.table_2
+    - light.ilot_level
+    - light.lavabo_level
+    - light.couloir_level
+    - light.gateway_light_7811dcb21414
+    - light.entree_interieur_light
+    - group.led_group
+    - media_player.google_home_cuisine
+    - group.television_sony_group
+
+kids_view:
+  name: Enfants
+  view: true
+  icon: mdi:github-face
+  control: hidden
+  entities:
+    - light.coralie
+    - light.coralie_lit
+    - light.jumeaux
+    - switch.veilleuse
+
+salon_view:
+  name: salon
+  view: true
+  control: hidden
+  icon: mdi:television-classic
+  entities:
+    - light.salon_1
+    - light.salon_2
+    - light.couloir_level
+    - group.television_phillips
+
+
+
+salledebain_view:
+  name: Salle de bain
+  view: true
+  icon: mdi:duck
+  control: hidden
+  entities:
+    - light.lumiere_miroir_level
+
+solarium_view:
+  name: solarium
+  view: true
+  icon: mdi:white-balance-sunny
+  control: hidden
+  entities:
+    - light.solarium
+    - switch.solarium_heater
+    - switch.prises_galerie_et_solarium
+    - climate.solarium_thermostat
+    - group.temp_solarium_group
+
+
+soussol_view:
+  name: Sous-Sol
+  view: true
+  icon: mdi:stairs
+  control: hidden
+  entities:
+    - light.laveusesecheuse
+    - light.bureau_light
+    - light.salon_soussol_1
+    - light.salon_soussol_2
+    - light.escalier
+    - light.atelier
+
+exterieur_view:
+  name: Extérieur
+  view: true
+  icon: mdi:flower
+  control: hidden
+  entities:
+    - switch.deco_ext
+    - sensor.humidity_ext
+    - sensor.temp_ext
+    - light.entree_exterieur_light
+    - light.lampadaire
+    - light.exterieur_balcon
+    - light.exterieur_coin
+    - switch.prises_galerie_et_solarium
+    - switch.prise_sous_galerie_avant
+
+network_view:
+  name: Network
+  view: true
+  icon: mdi:settings
+  control: hidden
+  entities:
+    - group.computer_group
+
+automation_view:
+  name: automation
+  view : true
+  icon: mdi:robot
+  control: hidden
+  entities:
+    - sun.sun
+    - group.all_automations
+    - group.all_scripts
+    - group.all_devices
+    - group.all_light
+    - group.all_switchs
+
+#####Group==================================================
+
+##Automation
+
+##Lumieres
+
+##Scripts
+
+##Sensors PIR
+
+## temperature
+temp_solarium_group:
+  name: Température Humidité
+  icon: mdi:snowflake
+  control: hidden
+  entities:
+    - sensor.solarium_temp
+    - sensor.solarium_humidity
+
+
+computer_group:
+  name : Computer
+  icon: mdi:clock
+  control: hidden
+  entities:
+    - sensor.ebox_usage
+    - switch.miami
+    - sensor.cpu_odroid_xu4
+    - sensor.cpu_orange_pi
+    - sensor.log_db_file_size
+
+wakeup_group:
+  name: Réveille Matin
+  icon: mdi:clock
+  control: hidden
+  entities:
+    - input_boolean.wakeup
+    - input_boolean.wakeup_weekonly
+    - input_datetime.wakeup_time
+    - binary_sensor.wakeup
+
+mode_group:
+  name: mode
+  icon: mdi:chemical-weapon
+  control: hidden
+  entities:
+    - input_boolean.mode_bath
+    - input_boolean.mode_guest
+    - input_boolean.mode_away
+    - input_boolean.mode_movie
+    - input_boolean.mode_night
+
+led_group:
+  name: Led sous armoir
+  icon: mdi:led-on
+  control: hidden
+  entities:
+    - switch.led_power
+    - switch.led_white
+    - switch.led_green
+    - switch.led_blue
+    - switch.led_red
+    - switch.led_turquoise
+    - switch.led_mauve
+    - switch.led_fade7
+    - switch.led_flash
+    - switch.led_quick
+    - switch.led_slow
+    - switch.led_sa_brightness_down
+    - switch.led_sa_brightness_up
+
+
+
+
+television_sony_group:
+  name: television Cuisine
+  icon: mdi:television-classic
+  control: hidden
+  entities:
+    - switch.sonytv_power
+    - switch.sonytv_0
+    - switch.sonytv_1
+    - switch.sonytv_2
+    - switch.sonytv_3
+    - switch.sonytv_4
+    - switch.sonytv_5
+    - switch.sonytv_6
+    - switch.sonytv_7
+    - switch.sonytv_8
+    - switch.sonytv_9
+    - switch.sonytv_dot
+    - switch.sonytv_ch_down
+    - switch.sonytv_ch_up
+    - switch.sonytv_display
+    - switch.sonytv_enter
+    - switch.sonytv_home
+    - switch.sonytv_input
+    - switch.sonytv_mute
+    - switch.sonytv_options
+    - switch.sonytv_pic_off
+    - switch.sonytv_return
+    - switch.sonytv_volume_down
+    - switch.sonytv_volume_up
+
+
+television_phillips:
+  name: Télévision Salon
+  control: hidden
+  icon: mdi:television-classic
+  entities:
+    - switch.phillips_tv_power
+    - switch.phillips_tv_channel
+    - switch.phillips_tv_volume
+    - switch.phillips_tv_mute
+    - switch.phillips_tv_1
+    - switch.phillips_tv_2
+    - switch.phillips_tv_3
+    - switch.phillips_tv_4
+    - switch.phillips_tv_5

@@ -1,0 +1,27 @@
+wakeup:
+  name: Réveille matin
+  icon: mdi:alarm-check
+
+wakeup_weekonly:
+  name: Seulement la semaine
+  icon: mdi:calendar
+
+mode_bath:
+  name: Mode Bain
+  icon: mdi:duck
+
+mode_guest:
+  name: Mode Invité
+  icon: mdi:account-multiple
+
+mode_away:
+  name: Mode Absent
+  icon: mdi:account-multiple
+
+mode_movie:
+  name: Mode Films
+  icon: mdi:television-classic
+
+mode_night:
+  name: Mode Nuit
+  icon: mdi:brightness-3

@@ -1,0 +1,34 @@
+- platform: generic_thermostat
+  name: solarium_thermostat
+  heater: switch.solarium_heater
+  target_sensor: sensor.solarium_temp
+  #min_temp: 15
+  max_temp: 22
+  target_temp: 20
+  tolerance: 0.3
+  min_cycle_duration:
+    seconds: 10
+  #keep_alive:
+  #  minutes: 3
+
+- platform: mqtt
+  name: Central
+  modes:
+    - stop
+    - cool
+    - heat
+    - emheat
+  fan_modes:
+    - always_on
+    - auto
+
+  temperature_command_topic: "hvac/central/temperature/set"
+  temperature_state_topic  : "hvac/central/temperature/state"
+
+  current_temperature_topic : "hvac/central/temperature/current"
+
+  mode_command_topic: "hvac/central/mode/set"
+  mode_state_topic: "hvac/central/mode/state"
+
+  fan_mode_command_topic: "hvac/central/fan/set"
+  fan_mode_state_topic : "hvac/central/fan/state"

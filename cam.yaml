@@ -1,0 +1,3 @@
+- platform: ffmpeg
+  name: Cam
+  input: !secret camera_input

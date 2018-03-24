@@ -1,0 +1,141 @@
+- platform: mqtt
+  name: "Exterieur balcon"
+  state_topic: "esp32/state/0"
+  command_topic: "esp32/set/0"
+  payload_on: "0"
+  payload_off: "1"
+  retain: true
+  optimistic: false
+
+- platform: mqtt
+  name: "Exterieur Coin"
+  state_topic: "esp32/state/1"
+  command_topic: "esp32/set/1"
+  payload_on: "0"
+  payload_off: "1"
+  retain: true
+  optimistic: false
+
+
+- platform: mqtt
+  name: "Escalier"
+  state_topic: "esp32/state/4"
+  command_topic: "esp32/set/4"
+  payload_on: "0"
+  payload_off: "1"
+  retain: true
+  optimistic: false
+
+- platform: mqtt
+  name: Chevets
+  state_topic: "stat/sonoff1/POWER"
+  command_topic: "cmnd/sonoff1/POWER"
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: true
+  optimistic: false
+
+- platform: mqtt
+  name: "Solarium"
+  state_topic: "stat/sonoff2/POWER"
+  command_topic: "cmnd/sonoff2/POWER"
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: true
+  optimistic: false
+
+- platform: mqtt
+  name: "LaveuseSecheuse"
+  state_topic: "stat/sonoff9/POWER"
+  command_topic: "cmnd/sonoff9/POWER"
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: true
+  optimistic: false
+
+- platform: mqtt
+  name: "Salon SousSol 1"
+  state_topic: "stat/soussol4/POWER"
+  command_topic: "cmnd/soussol4/POWER"
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: true
+  optimistic: false
+
+- platform: mqtt
+  name: "Salon SousSol 2"
+  state_topic: "stat/soussol6/POWER"
+  command_topic: "cmnd/soussol6/POWER"
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: true
+  optimistic: false
+
+
+- platform: mqtt
+  name: "Lampadaire"
+  state_topic: "stat/ext_sonoff7/POWER"
+  command_topic: "cmnd/ext_sonoff7/POWER"
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: true
+  optimistic: false
+
+
+- platform: template
+  lights:
+      chambre_light:
+        friendly_name: "Pot Masson"
+      #  value_template: "{{switch.chambre.state}}"
+        value_template: "{{ is_state('switch.chambre', 'on') }}"
+        turn_on:
+          service: switch.turn_on
+          entity_id: switch.chambre
+        turn_off:
+          service: switch.turn_off
+          entity_id: switch.chambre
+#///////////////////////////////////////////////////////////////////
+      bureau_light:
+        friendly_name: "Bureau"
+      #  value_template: "{{switch.chambre.state}}"
+        value_template: "{{ is_state('switch.bureau', 'on') }}"
+        turn_on:
+          service: switch.turn_on
+          entity_id: switch.bureau
+        turn_off:
+          service: switch.turn_off
+          entity_id: switch.bureau
+
+#///////////////////////////////////////////////////////////////////
+      entree_interieur_light:
+        friendly_name: "Entrée Intérieur"
+      #  value_template: "{{switch.chambre.state}}"
+        value_template: "{{ is_state('switch.entree_interieur', 'on') }}"
+        turn_on:
+          service: switch.turn_on
+          entity_id: switch.entree_interieur
+        turn_off:
+          service: switch.turn_off
+          entity_id: switch.entree_interieur
+
+#///////////////////////////////////////////////////////////////////
+      entree_exterieur_light:
+        friendly_name: "Entrée Extérieur"
+        value_template: "{{ is_state('switch.entree', 'on') }}"
+        turn_on:
+          service: switch.turn_on
+          entity_id: switch.entree
+        turn_off:
+          service: switch.turn_off
+          entity_id: switch.entree
+
+#///////////////////////////////////////////////////////////////////
+      atelier:
+        friendly_name: "Atelier"
+        value_template: "{{ is_state('switch.atelier', 'on') }}"
+        turn_on:
+          service: switch.turn_on
+          entity_id: switch.atelier
+        turn_off:
+          service: switch.turn_off
+          entity_id: switch.atelier

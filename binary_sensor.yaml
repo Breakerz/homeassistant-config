@@ -1,0 +1,41 @@
+#Using binary sensor, help to determine if movement is on or off... 
+- platform: template
+  sensors:
+    bathroom_room_movement:
+      friendly_name: Bathroom_Room_Movement
+      value_template: "{{not is_state('sensor.motion_salle_bain', 'unknown')}}"
+
+### Not working... keep to test
+#- platform: template
+#  sensors:
+#     cuisine_room_movement:
+#       friendly_name: Cuisine_Room_Movement
+#       value_template: "{{not (is_state('sensor.motion_cuisine1', 'unknown') and is_state('sensor.motion_cuisine2', 'unknown') and is_state('sensor.motion_cuisine4', 'unknown') and is_state('sensor.motion_cuisine8', 'unknown') ) }}"
+
+- platform: template
+  sensors:
+    wakeup:
+      friendly_name: "Wakeup!"
+      value_template: "{{ (states.input_datetime.wakeup_time.attributes.timestamp | int | timestamp_custom('%H:%M', False)) == states.sensor.time.state }}"
+
+## ToDo : TESTING!! AJUSTING... 
+- platform: bayesian
+  prior: 0.5
+  name: 'Bayesian Presence'
+  probability_threshold: 0.9
+  observations:
+    - entity_id: 'device_tracker.iphone_patrick'
+      prob_given_true: 0.7
+      prob_given_false: 0.4
+      platform: 'state'
+      to_state: 'home'
+    - entity_id: 'device_tracker.nashville'
+      prob_given_true: 0.9
+      prob_given_false: 0.2
+      platform: 'state'
+      to_state: 'home'
+    - entity_id: 'device_tracker.iphone_patricia'
+      prob_given_true: 0.7
+      prob_given_false: 0.2
+      platform: 'state'
+      to_state: 'home'

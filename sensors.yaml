@@ -1,0 +1,138 @@
+- platform: yr
+
+- platform: time_date
+  display_options:
+    - 'time'
+    - 'date'
+    
+- platform: ebox
+  username: !secret ebox_username
+  password: !secret ebox_password
+  monitored_variables:
+#    - balance
+#    - total
+#    - usage
+    - download
+    - upload
+
+- platform: transmission
+  host: !secret miami_host
+  monitored_variables:
+    - 'current_status'
+    - 'download_speed'
+    - 'upload_speed'
+    - 'active_torrents'
+
+- platform: hydroquebec
+  username: !secret hydroquebec_username
+  password: !secret hydroquebec_password
+  contract: !secret hydroquebec_contract
+  monitored_variables:
+#   - balance
+   - period_total_bill
+#   - period_length
+   - period_total_days
+#   - period_mean_daily_bill
+   - period_mean_daily_consumption
+   - period_total_consumption
+   - period_lower_price_consumption
+   - period_higher_price_consumption
+#   - period_average_temperature
+   - yesterday_total_consumption
+   - yesterday_lower_price_consumption
+   - yesterday_higher_price_consumption
+#   - yesterday_average_temperature
+
+
+#- platform: command_line
+#  name: Home_Temperature
+#  command: "~/.homeassistant/scripts/gettemp.sh"
+#  unit_of_measurement: "°C"
+
+- platform: mqtt
+  name: "solarium_temp"
+  state_topic: "tele/sonoff10/SENSOR"
+  value_template: "{{ value_json.DHT22.Temperature }}"
+  unit_of_measurement: "°C"
+
+- platform: mqtt
+  name: "solarium_humidity"
+  state_topic: "tele/sonoff10/SENSOR"
+  value_template: "{{ value_json.DHT22.Humidity }}"
+  unit_of_measurement: "%"
+
+- platform: mqtt
+  name: "motion_salle_bain"
+  state_topic: "RTL_433/Raw/21596"
+  value_template: "{{value_json.cmd|string}}"
+  expire_after: 30
+
+#voisin...?
+- platform: mqtt
+  name: "temp_ext"
+  state_topic: "RTL_433/Raw/4858"
+  value_template: "{{value_json.temperature_C}}"
+  unit_of_measurement: "°C"
+
+#voisin...?
+- platform: mqtt
+  name: "humidity_ext"
+  state_topic: "RTL_433/Raw/4858"
+  value_template: "{{value_json.humidity}}"
+  unit_of_measurement: "%"
+
+######## No Working 433mhz sensor.... keep to test
+#- platform: mqtt
+#  name: "motion_cuisine1"
+#  state_topic: "RTL_433/Raw/1"
+#  value_template: "{{value_json.rain|string}}"
+#  expire_after: 30
+#
+#- platform: mqtt
+#  name: "motion_cuisine2"
+#  state_topic: "RTL_433/Raw/2"
+#  value_template: "{{value_json.rain|string}}"
+#  expire_after: 30
+#
+#- platform: mqtt
+#  name: "motion_cuisine4"
+#  state_topic: "RTL_433/Raw/4"
+#  value_template: "{{value_json.rain|string}}"
+#  expire_after: 30
+#
+#- platform: mqtt
+#  name: "motion_cuisine8"
+#  state_topic: "RTL_433/Raw/8"
+#  value_template: "{{value_json.rain|string}}"
+#  expire_after: 30
+
+- platform: command_line
+  name: CPU Odroid XU4
+  command: ssh odroid cat /etc/armbianmonitor/datasources/soctemp | awk '{printf("%d",$1/1000)}' 
+  unit_of_measurement: "°C"
+  
+
+- platform: command_line
+  name: CPU Raspberry Pi
+  command:  cat /sys/class/thermal/thermal_zone0/temp | awk '{printf("%d",$1/1000)}'
+  unit_of_measurement: "°C"
+
+
+#- platform: command_line
+#  name: SSL cert expiry
+#  unit_of_measurement: days
+#  scan_interval: 86400  
+#  command: ssl-cert-check -b -c /etc/letsencrypt/live/DOMAIN/chain.pem | awk '{ print $NF }'  
+  
+- platform: command_line
+  name: log_db_file_size
+  command: "du -m /home/homeassistant/.homeassistant/home-assistant_v2.db | cut -f1"
+  unit_of_measurement: 'MB'
+  value_template: '{{ value | int - 1 }}'  
+
+##### example
+#- platform: file
+#  name: alarm_hour
+#  file_path: /home/homeassistant/.homeassistant/files_sensors/db.json
+#  value_template: '{{ value_json.alarm_hour }}'
+

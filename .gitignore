@@ -3,5 +3,8 @@
 !scenes
 !.gitignore
 !.HA_VERSION
+credentials.yaml
 secrets.yaml
+**/secrets.yaml
+**/credentials.yaml
 known_devices.yaml
