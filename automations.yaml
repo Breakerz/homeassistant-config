@@ -1,1 +1,670 @@
-[]
+
+- id: motion_salon_on
+  initial_state: true
+  alias: Salon allumer automatiquement
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_sensor_158d0001e0abd1
+    from: 'off'
+    to: 'on'
+
+  condition:
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: light.salon_1
+      state: 'off'
+    - condition: numeric_state
+      entity_id: sensor.illumination_158d0001e0abd1
+      below: 10
+
+  action:
+    - service: light.turn_on
+      entity_id: light.salon_1
+      data:
+        brightness: 5
+    # - service: automation.turn_on
+    #   data:
+    #     entity_id: automation.motion_salon_off
+
+- id: button_xiaomi_long_press
+  alias: Long press Button Ferme tout
+  trigger:
+    - platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d0001be5b44
+        click_type: long_click_press
+
+    - platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d0001be5c07
+        click_type: long_click_press
+
+  action:
+    - service: input_boolean.turn_on
+      data:
+        entity_id: input_boolean.mode_night
+
+
+- id: button_xiaomi_double_click
+  alias: Double Click Button pot masson
+  trigger:
+    - platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d0001be5b44
+        click_type: double
+
+    - platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d0001be5c07
+        click_type: double
+
+  action:
+    - service: light.toggle
+      entity_id: light.chambre_light
+
+
+- id: button_xiaomi_single_click
+  alias: Simple Click Button Chevets
+  trigger:
+    - platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d0001be5b44
+        click_type: single
+
+    - platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d0001be5c07
+        click_type: single
+
+  action:
+    - service: light.toggle
+      entity_id: light.chevets
+
+- id: motion_salon_off
+  initial_state: true
+  alias: Salon eteindre automatiquement
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_sensor_158d0001e0abd1
+    from: 'on'
+    to: 'off'
+    for:
+      minutes: 15
+  action:
+    - service: light.turn_off
+      entity_id: light.salon_1
+    - service: light.turn_off
+      entity_id: light.salon_2
+    # - service: automation.turn_off
+    #   data:
+    #     entity_id: automation.motion_salon_off
+
+#############################
+
+
+- id: motion_soussol_on
+  alias: Sous Sol allumer automatiquement
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_sensor_158d0001e0b1f6
+    from: 'off'
+    to: 'on'
+  condition:
+    condition: numeric_state
+    entity_id: sensor.illumination_158d0001e0b1f6
+    below: 10
+  action:
+    - service: light.turn_on
+      entity_id: light.salon_soussol_1
+    - service: light.turn_on
+      entity_id: light.salon_soussol_2
+    - service: automation.turn_on
+      data:
+        entity_id: automation.motion_soussol_off
+
+- id: motion_soussol_off
+  alias: Sous Sol eteindre automatiquement
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_sensor_158d0001e0b1f6
+    from: 'on'
+    to: 'off'
+    for:
+      minutes: 10
+  action:
+    - service: light.turn_off
+      entity_id: light.salon_soussol_1
+    - service: light.turn_off
+      entity_id: light.salon_soussol_2
+    - service: automation.turn_off
+      data:
+        entity_id: automation.motion_soussol_off
+
+
+####################
+
+- id: bureau_close
+  alias: bureau_close
+  trigger:
+    - platform: state
+      entity_id: switch.bureau
+      to: 'off'
+      for:
+        seconds: 2
+  action:
+    service: shell_command.hibernate_miami_cmd
+
+
+- id: coralie_lit_close
+  alias: coralie_lit_close
+  hide_entity: false
+  initial_state: true
+  trigger:
+    - platform: state
+      entity_id: light.coralie_lit
+      to: 'off'
+      for:
+        seconds: 1
+  action:
+  - service: light.turn_off
+    entity_id:
+      - light.coralie
+
+- id: coralie_lit_open
+  alias: coralie_lit_open
+  hide_entity: false
+  initial_state: true
+  trigger:
+    - platform: state
+      entity_id: light.coralie_lit
+      to: 'on'
+      for:
+        seconds: 1
+  action:
+  - service: light.turn_on
+    entity_id:
+      - light.coralie_lit
+    data:
+      brightness: 60
+
+# - id: manette_press
+#   alias: manette_press
+#   trigger:
+#   - platform: mqtt
+#     topic: 'RTL_433/Raw/21845'
+#   action:
+#     service: script.turn_on
+#     entity_id: script.set_away_mode
+
+#############################################
+- id: pat_button1
+  alias: ManettePat1
+  hide_entity: false
+  initial_state: true
+  trigger:
+  - platform: mqtt
+    topic: 'RTL_433/Raw/15097'
+  condition:
+    condition: template
+    value_template: '{{ trigger.payload_json.code == "475f32" }}'
+  action:
+    # - service: script.turn_on
+    #   entity_id: script.set_away_mode
+
+    - service: input_boolean.turn_on
+      data:
+        entity_id: input_boolean.mode_night
+
+- id: pat_button2
+  alias: ManettePat2
+  hide_entity: false
+  initial_state: true
+  trigger:
+  - platform: mqtt
+    topic: 'RTL_433/Raw/15097'
+  condition:
+    condition: template
+    value_template: '{{ trigger.payload_json.code == "175f32" }}'
+  action:
+    service: light.toggle
+    entity_id:
+      - light.chambre_light
+    data:
+       entity_id: light.chambre_light
+
+- id: pat_button3
+  alias: ManettePat3
+  hide_entity: false
+  initial_state: true
+  trigger:
+  - platform: mqtt
+    topic: 'RTL_433/Raw/15097'
+  condition:
+    condition: template
+    value_template: '{{ trigger.payload_json.code == "275f32" }}'
+  action:
+  - service: light.toggle
+    entity_id:
+      - light.chevets
+    data:
+       entity_id: light.chevets
+###################################################
+
+#####manette patricia########################################
+- id: pate_button1
+  alias: ManettePate1
+  hide_entity: false
+  initial_state: true
+  trigger:
+  - platform: mqtt
+    topic: 'RTL_433/Raw/24268'
+  condition:
+    condition: template
+    value_template: '{{ trigger.payload_json.code == "4bd993" }}'
+  action:
+    # - service: script.turn_on
+    #   entity_id: script.set_away_mode
+
+    - service: input_boolean.turn_on
+      data:
+        entity_id: input_boolean.mode_night
+
+- id: pate_button2
+  alias: ManettePate2
+  hide_entity: false
+  initial_state: true
+  trigger:
+  - platform: mqtt
+    topic: 'RTL_433/Raw/24268'
+  condition:
+    condition: template
+    value_template: '{{ trigger.payload_json.code == "1bd993" }}'
+  action:
+    service: light.toggle
+    entity_id:
+      - light.chambre_light
+    data:
+       entity_id: light.chambre_light
+
+- id: pate_button3
+  alias: ManettePate3
+  hide_entity: false
+  initial_state: true
+  trigger:
+  - platform: mqtt
+    topic: 'RTL_433/Raw/24268'
+  condition:
+    condition: template
+    value_template: '{{ trigger.payload_json.code == "2bd993" }}'
+  action:
+  - service: light.toggle
+    entity_id:
+      - light.chevets
+    data:
+       entity_id: light.chevets
+
+
+#############################################
+
+- id: night_mode_switch
+  alias: bascule au mode nuit
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_night
+    to: 'on'
+  action:
+    - service: script.turn_on
+      entity_id: script.set_away_mode
+####
+
+- id: open_patio_night
+  alias: Ouverture de la porte patio soir
+  hide_entity: false
+  initial_state: true
+  trigger:
+  - entity_id: binary_sensor.door_window_sensor_158d0002251481
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition:
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: light.exterieur_balcon
+      state: 'off'
+    - condition: state
+      entity_id: sun.sun
+      state: 'below_horizon'
+  action:
+     - service: light.turn_on
+       entity_id: light.exterieur_balcon
+     - service: automation.turn_on
+       data:
+         entity_id: automation.close_patio_night
+
+#######
+#############################################
+- id: close_patio_night
+  alias: Fermeture de la porte patio soir
+  hide_entity: false
+  initial_state: false
+  trigger:
+  - entity_id: binary_sensor.door_window_sensor_158d0002251481
+    from: 'on'
+    platform: state
+    to: 'off'
+    for:
+      #seconds: 5
+      minutes: 30
+  action:
+    - service: light.turn_off
+      entity_id: light.exterieur_balcon
+    - service: automation.turn_off
+      data:
+        entity_id: automation.close_patio_night
+
+########
+- id: bathroom_motion_ona
+  alias: bathroom_motion_onb
+  hide_entity: false
+  initial_state: true
+  trigger:
+  - entity_id: binary_sensor.bathroom_room_movement
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition:
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: light.lumiere_miroir_level
+      state: 'off'
+    - condition: state
+      entity_id: sun.sun
+      state: 'below_horizon'
+    - condition: state
+      entity_id: input_boolean.mode_bath
+      state: 'off'
+  action:
+    - service: light.turn_on
+      data:
+        entity_id: light.lumiere_miroir_level
+        brightness: 5
+
+    - service: light.turn_on
+      data:
+        entity_id: light.gateway_light_7811dcb21414
+        color_name: >
+            {% if is_state('input_boolean.mode_night', 'on') %}
+              red
+            {% else %}
+              white
+            {% endif %}
+#$#
+- id: bathroom_motion_off_redlight
+  alias: Eteindre lumiere rouge la nuit auto
+  hide_entity: false
+  initial_state: true
+  trigger:
+  - entity_id: binary_sensor.bathroom_room_movement
+    from: 'on'
+    platform: state
+    to: 'off'
+    for:
+      minutes: 2
+  condition:
+  - condition: state
+    entity_id: input_boolean.mode_night
+    state: 'on'
+  action:
+  - service: light.turn_off
+    entity_id:
+      - light.gateway_light_7811dcb21414
+#############################################
+- id: bathroom_motion_offa
+  alias: bathroom_motion_offb
+  hide_entity: false
+  initial_state: true
+  trigger:
+  - entity_id: binary_sensor.bathroom_room_movement
+    from: 'on'
+    platform: state
+    to: 'off'
+    for:
+      minutes: 2
+  condition:
+  - condition: state
+    entity_id: input_boolean.mode_bath
+    state: 'off'
+  action:
+  - service: light.turn_off
+    entity_id:
+      - light.lumiere_miroir_level
+
+- id: new_release
+  alias: New Release notifications
+  hide_entity: false
+  initial_state: true
+  trigger:
+  - platform: state
+    entity_id: updater.updater
+  action:
+    service: notify.pushbullet
+    data_template:
+      title: New Home Assistant Release
+      message: Home Assistant  {{ states.updater.updater.state }}  is now available.
+
+# - id: patehome
+#   alias: patehome
+#   trigger:
+#   - entity_id: device_tracker.iphone_patricia
+#     from: not_home
+#     platform: state
+#     to: home
+#   condition:
+#   - condition: time
+#     after: '12:00'
+#     before: '21:00'
+#   action:
+#   - service: shell_command.ifttt_pate_home
+
+- id: night_mode_off
+  alias: Mode Nuit terminé
+  hide_entity: false
+  initial_state: true
+  trigger:
+  - at: 09:00:00
+    platform: time
+  condition:
+  - condition: state
+    entity_id: input_boolean.mode_night
+    state: 'on'
+  action:
+  - service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.mode_night
+
+- id: night_mode_on
+  alias: Mode Nuit On at migtnight
+  hide_entity: false
+  initial_state: true
+  trigger:
+  - at: 00:00:00
+    platform: time
+  condition:
+  - condition: state
+    entity_id: input_boolean.mode_night
+    state: 'off'
+  action:
+  - service: input_boolean.turn_on
+    data:
+      entity_id: input_boolean.mode_night
+
+
+- id: kodi_night_scann
+  alias: kodi scan de nuit
+  hide_entity: false
+  initial_state: true
+  trigger:
+  - at: 03:00:00
+    platform: time
+  action:
+    service: script.turn_on
+    entity_id: script.update_kodi_library
+
+
+- id: wake_me
+  alias: Wake Me Up
+  hide_entity: false
+  initial_state: true
+  trigger:
+  - entity_id: binary_sensor.wakeup
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition:
+    condition: or
+    conditions:
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: input_boolean.wakeup
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.wakeup_weekonly
+        state: 'on'
+      - condition: time
+        weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: input_boolean.wakeup
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.wakeup_weekonly
+        state: 'off'
+  action:
+    service: script.turn_on
+    entity_id: script.wakeme
+
+- id: hass_start
+  hide_entity: false
+  initial_state: true
+  alias: Home Assistant start event
+  trigger:
+    platform: homeassistant
+    event: start
+  action:
+    service: script.turn_on
+    entity_id: script.boot_event
+
+#- id: change_current_theme
+#  alias: Change Current Theme
+#  initial_state: 'on'
+#  trigger:
+#  - platform: state
+#    entity_id: input_select.current_theme
+#  action:
+#  - service: frontend.set_theme
+#    data_template:
+#      name: '{{states.input_select.current_theme.state}}'
+#  - service: shell_command.save_json
+#    data_template:
+#      tag: current_theme
+#      value: '{{states.input_select.current_theme.state}}'
+
+- id: heal_zwave_network
+  alias: Heal Z-Wave Network
+  hide_entity: false
+  initial_state: true
+  trigger:
+    platform: time
+    at: '2:31:00'
+  action:
+    service: zwave.heal_network
+
+
+- id: lampadaire_on
+  alias: "Lampadaire ON"
+  hide_entity: false
+  initial_state: true
+  trigger:
+  - event: sunset
+    offset: -00:20:00
+    platform: sun
+  condition: []
+  action:
+  - data:
+      entity_id: light.lampadaire
+    service: light.turn_on
+
+- id: lampadaire_off
+  alias: "Lampadaire OFF"
+  hide_entity: false
+  initial_state: true
+  trigger:
+  - at: 00:00:00
+    platform: time
+  condition: []
+  action:
+  - data:
+      entity_id: light.lampadaire
+    service: light.turn_off
+
+- id: entree_on
+  alias: "Entrée ON"
+  trigger:
+  - event: sunset
+    offset: -00:30:00
+    platform: sun
+  condition: []
+  action:
+  - data:
+      entity_id: light.entree_exterieur_light
+    service: light.turn_on
+
+- id: entree_off
+  alias: "Entrée OFF"
+  trigger:
+  - platform: time
+    at: '00:00:00'
+  condition: []
+  action:
+  - data:
+      entity_id: light.entree_exterieur_light
+    service: light.turn_off
+
+- id: deco_on
+  alias: "Decoration  ON"
+  trigger:
+  - event: sunset
+    offset: -00:45:00
+    platform: sun
+  condition: []
+  action:
+  - data:
+      entity_id: switch.deco_ext
+    service: homeassistant.turn_on
+
+- id: deco_off
+  alias: "Decoration  OFF"
+  trigger:
+  - at: 01:00:00
+    platform: time
+  condition: []
+  action:
+  - service: homeassistant.turn_off
+    data:
+      entity_id: switch.deco_ext
