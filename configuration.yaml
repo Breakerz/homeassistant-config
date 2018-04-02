@@ -17,10 +17,12 @@ frontend: !include frontend.yaml
 config:
 
 http:
-  # Secrets are defined in the file secrets.yaml
-  # api_password: !secret http_password
-  # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
-  # base_url: example.duckdns.org:8123
+  api_password: !secret http_password
+  ssl_certificate: !secret ssl_certificate
+  ssl_key: !secret ssl_key
+  # Uncomment this if you are using SSL or running in Docker etc
+  base_url: !secret base_url
+
 
 # Checks for available updates
 # Note: This component will send some information about your system to
@@ -46,7 +48,7 @@ conversation:
 
 recorder:
   purge_interval: 0
-  
+
 history:
 
 # View all events in a logbook
@@ -62,21 +64,83 @@ sun:
 ios:
 
 xiaomi_aqara:
-  discovery_retry: 5
+  discovery_retry: 10
   gateways:
     - key: !secret xiaomi_key
+      mac : !secret xiaomi_mac
+      host: !secret xiaomi_host
+
 #https://github.com/OpenZWave/open-zwave/wiki/Adding-Security-Devices-to-OZW
 #https://community.home-assistant.io/t/making-aeotec-z-wave-stick-static/3716/4 <- Symblink + trick pour la led qui flash
-#zwave:
-#  usb_path: /dev/zwave
-#  network_key: !secret zwave_network_key
+zwave:
+  usb_path: /dev/zwave
+  network_key: !secret zwave_network_key
 
-#google_assistant:
-#  project_id: !secret google_assistant_project_id
-#  client_id: !secret google_assistant_client_id
-#  access_token: !secret google_assistant_access_token
-#  agent_user_id: !secret google_assistant_agent_user_id
-#  api_key: !secret google_assistant_api_key
+google_assistant:
+  project_id: !secret google_assistant_project_id
+  client_id: !secret google_assistant_client_id
+  access_token: !secret google_assistant_access_token
+  agent_user_id: !secret google_assistant_agent_user_id
+  api_key: !secret google_assistant_api_key
+  expose_by_default: false
+  entity_config:
+    light.atelier:
+      expose: true
+    light.bureau:
+      expose: true
+    light.level_4:
+      expose: true
+      name: Couloir
+    light.level_2:
+      expose: true
+      name: Ilot
+    light.level_3:
+      expose: true
+      name: Lavabo
+    light.level:
+      expose: true
+      name: Miroir
+    light.chambre:
+      expose: true
+    light.chevets:
+      expose: true
+    light.coralie:
+      expose: true
+    light.escalier:
+      expose: true
+    light.exterieur_balcon:
+      expose: true
+      name: Balcon
+    light.entree_in:
+      expose: true
+      name: Entrée Intérieur
+    light.entree_out:
+      expose: true
+      name: Entrée Extérieur
+    light.exterieur_coin:
+      expose: true
+      name: Stationnement
+    light.jumeaux:
+      expose: true
+      name: Chambre des gars
+      aliases: 
+        - Félix
+        - Xavier
+        - des Jumeaux
+    light.lampadaire:
+      expose: true
+    light.laveusesecheuse:
+      expose: true
+      name: Laveuse Sécheuse
+      aliases:
+        - Bas des escaliers
+    light.salon:
+      expose: true
+    light.cuisine:
+      expose: true
+      name: table
+    light.solarium:
+     expose: true
 
 # Text to speech
 tts:
@@ -93,7 +157,7 @@ tts:
 hue:
   bridges:
     - host: !secret hue_ip
-      allow_hue_groups: false
+      allow_hue_groups: true
       filename: phue.conf
 
 mqtt:
@@ -118,6 +182,6 @@ switch: !include switches.yaml
 light: !include lights.yaml
 climate: !include climate.yaml
 group: !include groups.yaml
-scene : !include scene.yaml
+scene: !include scene.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml

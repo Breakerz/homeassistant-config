@@ -31,7 +31,7 @@ binary_sensor.motion_sensor_158d0001e0abd1:
   platform: xiaomi_aqara
   unique_id: status158d0001e0abd1
 light.gateway_light_7811dcb21414:
-  name:
+  name: Garde Mangé
   platform: xiaomi_aqara
   unique_id: rgb7811dcb21414
 media_player.salon:
@@ -94,3 +94,39 @@ sensor.nashville_battery_level:
   name:
   platform: ios
   unique_id: level_Nashville
+light.level:
+  name: Miroir
+  platform: zwave
+  unique_id: 2-72057594076299265
+light.level_2:
+  name: ilot
+  platform: zwave
+  unique_id: 3-72057594093076481
+light.level_3:
+  name: Lavabo
+  platform: zwave
+  unique_id: 4-72057594109853697
+light.level_4:
+  name: Couloir
+  platform: zwave
+  unique_id: 5-72057594126630913
+sensor.aeotec_dsc19103_micro_smart_dimmer_2nd_edition_unknown:
+  name:
+  platform: zwave
+  unique_id: 5-72057594126827522
+sensor.aeotec_dsc19103_micro_smart_dimmer_2nd_edition_power:
+  name:
+  platform: zwave
+  unique_id: 5-72057594126827650
+sensor.aeotec_dsc19103_micro_smart_dimmer_2nd_edition_voltage:
+  name:
+  platform: zwave
+  unique_id: 5-72057594126827778
+sensor.aeotec_dsc19103_micro_smart_dimmer_2nd_edition_current:
+  name:
+  platform: zwave
+  unique_id: 5-72057594126827842
+sensor.aeotec_dsc19103_micro_smart_dimmer_2nd_edition_previous_reading:
+  name:
+  platform: zwave
+  unique_id: 5-72057594126827538

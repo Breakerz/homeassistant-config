@@ -4,43 +4,44 @@
     light.coralie_lit: off
     light.jumeaux: off
     switch.veilleuse: off
-    light.lumiere_miroir_level: off
+    light.level: off
     light.salon_1: off
     light.salon_2: off
     light.table_1: off
     light.table_2: off
     light.solarium: off
     light.chevets: off
-    light.chambre_light: off
-    light.bureau_light: off
+    light.chambre: off
+    light.bureau: off
     switch.phillips_tv_power: off
     light.laveusesecheuse: off
-    light.ilot_level: off
-    light.lavabo_level: off
-    light.couloir_level: off
+    light.level_2: off
+    light.level_3: off
+    light.level_4: off
     light.salon_soussol_1: off
     light.salon_soussol_2: off
-    light.entree_interieur_light: off
-    light.entree_exterieur_light: off
+    light.entree_in: off
+    light.entree_out: off
     light.escalier: off
     light.gateway_light_7811dcb21414: off
-    light.atelier: off    
+    light.atelier: off
+    light.exterieur_balcon: off
     #lockdoor
 
 - name: Couloir30
   entities:
-    light.couloir_level:
+    light.level_4:
        state: on
        brightness: 30
 
 - name: Couloir70
   entities:
-    light.couloir_level:
+    light.level_4:
        state: on
        brightness: 70
 - name: Couloir255
   entities:
-    light.couloir_level:
+    light.level_4:
        state: on
        brightness: 255
 

@@ -14,7 +14,7 @@ tv_insignia_sleep_5minutes:
       entity_id : 'switch.insignia_sleep'
   - service: switch.turn_on
     data:
-      entity_id : 'switch.insignia_sleep'      
+      entity_id : 'switch.insignia_sleep'
 
 #############################################
 boot_event:
@@ -43,7 +43,7 @@ set_bath_mode:
         entity_id: input_boolean.mode_bath
     - service: light.turn_off
       data:
-        entity_id: light.lumiere_miroir_level
+        entity_id: light.level
 
 close_led:
   sequence:
@@ -97,11 +97,11 @@ wakeme:
         volume_level: 0.3
     - service: light.turn_on
       data:
-        entity_id: light.lavabo_level
+        entity_id: light.level_3
         brightness: 20
     - service: light.turn_on
       data:
-        entity_id: light.ilot_level
+        entity_id: light.level_2
         brightness: 20
     - delay: 00:01:00
     - service: media_player.volume_set
@@ -111,18 +111,18 @@ wakeme:
     - delay: 00:15 # 15 minutes
     - service: light.turn_on
       data:
-        entity_id: light.lavabo_level
+        entity_id: light.level_3
         brightness: 100
     - service: light.turn_on
       data:
-        entity_id: light.ilot_level
+        entity_id: light.level_2
         brightness: 100
     - delay: 00:05 # 5 minutes
     - service: light.turn_on
       data:
-        entity_id: light.lavabo_level
+        entity_id: light.level_3
         brightness: 180
     - service: light.turn_on
       data:
-        entity_id: light.ilot_level
+        entity_id: light.level_2
         brightness: 180

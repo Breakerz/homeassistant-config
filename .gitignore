@@ -1,6 +1,7 @@
 *
 !*.yaml
-!scenes
+!scripts/climate2mqtt.py
+!scripts/totalcomfort.py
 !.gitignore
 !.HA_VERSION
 credentials.yaml

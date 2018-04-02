@@ -65,7 +65,7 @@
 
   action:
     - service: light.toggle
-      entity_id: light.chambre_light
+      entity_id: light.chambre
 
 
 - id: button_xiaomi_single_click
@@ -235,9 +235,9 @@
   action:
     service: light.toggle
     entity_id:
-      - light.chambre_light
+      - light.chambre
     data:
-       entity_id: light.chambre_light
+       entity_id: light.chambre
 
 - id: pat_button3
   alias: ManettePat3
@@ -289,9 +289,9 @@
   action:
     service: light.toggle
     entity_id:
-      - light.chambre_light
+      - light.chambre
     data:
-       entity_id: light.chambre_light
+       entity_id: light.chambre
 
 - id: pate_button3
   alias: ManettePate3
@@ -384,7 +384,7 @@
   - condition: and
     conditions:
     - condition: state
-      entity_id: light.lumiere_miroir_level
+      entity_id: light.level
       state: 'off'
     - condition: state
       entity_id: sun.sun
@@ -395,7 +395,7 @@
   action:
     - service: light.turn_on
       data:
-        entity_id: light.lumiere_miroir_level
+        entity_id: light.level
         brightness: 5
 
     - service: light.turn_on
@@ -446,7 +446,7 @@
   action:
   - service: light.turn_off
     entity_id:
-      - light.lumiere_miroir_level
+      - light.level
 
 - id: new_release
   alias: New Release notifications
@@ -632,7 +632,7 @@
   condition: []
   action:
   - data:
-      entity_id: light.entree_exterieur_light
+      entity_id: light.entree_out
     service: light.turn_on
 
 - id: entree_off
@@ -643,7 +643,7 @@
   condition: []
   action:
   - data:
-      entity_id: light.entree_exterieur_light
+      entity_id: light.entree_out
     service: light.turn_off
 
 - id: deco_on

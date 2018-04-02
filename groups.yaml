@@ -23,7 +23,7 @@ chambre_view:
   name: chambre
   icon: mdi:hotel
   entities:
-    - light.chambre_light
+    - light.chambre
     - light.chevets
     - group.wakeup_group
 
@@ -35,9 +35,9 @@ cuisine_view:
   entities:
     - light.table_1
     - light.table_2
-    - light.ilot_level
-    - light.lavabo_level
-    - light.couloir_level
+    - light.level_2
+    - light.level_3
+    - light.level_4
     - light.gateway_light_7811dcb21414
     - light.entree_interieur_light
     - group.led_group
@@ -74,7 +74,7 @@ salledebain_view:
   icon: mdi:duck
   control: hidden
   entities:
-    - light.lumiere_miroir_level
+    - light.level
 
 solarium_view:
   name: solarium
@@ -96,11 +96,12 @@ soussol_view:
   control: hidden
   entities:
     - light.laveusesecheuse
-    - light.bureau_light
+    - light.bureau
     - light.salon_soussol_1
     - light.salon_soussol_2
     - light.escalier
     - light.atelier
+    - group.salle_jeux
 
 exterieur_view:
   name: Extérieur
@@ -144,6 +145,11 @@ automation_view:
 ##Automation
 
 ##Lumieres
+salle_jeux:
+  name: Salle de jeux
+  entities:
+    - light.salon_soussol_1
+    - light.salon_soussol_2
 
 ##Scripts
 
