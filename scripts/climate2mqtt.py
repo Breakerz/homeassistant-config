@@ -6,7 +6,7 @@ import yaml
 import totalcomfort
 from totalcomfort import TotalComfortAction
 
-gmode = "0"
+gmode = 0
 
 #https://gist.github.com/ghostbitmeta/694934062c0814680d52
 
@@ -19,7 +19,7 @@ def on_connect(client, userdata, flag, rc):
 
 # The callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):
-    print("Topic: ", msg.topic+'\nMessage: '+str(msg.payload))
+    print("Topic: ", msg.topic+'\nMessage: '+str(msg.payload, encoding='ascii'))
     {
         "hvac/central/temperature/set": set_temperature,
         "hvac/central/mode/set": set_mode,
@@ -32,8 +32,8 @@ def wrong_topic(client, msg):
 
 def set_temperature(client, msg):
 	print("set_temperature")
-	client.publish("hvac/central/temperature/state", str(msg.payload))
-	action = (TotalComfortAction.COOL) if (gmode == "3") else TotalComfortAction.HEAT
+	client.publish("hvac/central/temperature/state", str(msg.payload, encoding='ascii'))
+	action = (TotalComfortAction.COOL) if (gmode == 3) else TotalComfortAction.HEAT
 	totalcomfort.execute(action, str(msg.payload));
 
 def get_status(client, msg):
@@ -45,34 +45,39 @@ def get_status(client, msg):
 	client.publish("hvac/central/fan/state", fan_state)
 
 	global gmode
-	mode = "stop"
+	mode = "bleh"
 	gmode = j['latestData']['uiData']["SystemSwitchPosition"]
 	if (gmode == 0):
-		mode = "emheat"
+		mode = 'emheat'
 	if (gmode == 1):
-		mode = "heat"
+		mode = 'heat'
 	if (gmode == 2):
-		mode = "cool"
+		mode = 'stop'
+	if (gmode == 3):
+		mode = 'cool'
+	print(mode)
 	client.publish("hvac/central/mode/state", mode)
 
 def set_mode(client, msg):
 	print("set_mode")
-	client.publish("hvac/central/mode/state", str(msg.payload))
+	client.publish("hvac/central/mode/state", str(msg.payload, encoding='ascii'))
 	mode = 2
 
-	if (str(msg.payload).startswith('emheat')):
+	print(str(msg.payload, encoding='ascii'))
+
+	if (str(msg.payload, encoding='ascii').startswith('emheat')):
 		mode = 0
-	if (str(msg.payload).startswith('heat')):
+	if (str(msg.payload, encoding='ascii').startswith('heat')):
 		mode = 1
-	if (str(msg.payload).startswith('cool')):
+	if (str(msg.payload, encoding='ascii').startswith('cool')):
 		mode = 3
 
 	totalcomfort.execute(TotalComfortAction.MODE, mode)
 
 def set_fan(client, msg):
 	print("set_fan")
-	client.publish("hvac/central/fan/state", str(msg.payload))
-	fanmode = '0' if (str(msg.payload).startswith('auto')) else '1'
+	client.publish("hvac/central/fan/state", str(msg.payload, encoding='ascii'))
+	fanmode = '0' if (str(msg.payload, encoding='utf-8').startswith('auto')) else '1'
 	totalcomfort.execute(TotalComfortAction.FAN, fanmode)
 
 client = mqtt.Client()
