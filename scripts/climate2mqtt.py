@@ -84,7 +84,9 @@ client = mqtt.Client()
 client.on_connect = on_connect
 client.on_message = on_message
 
+## TODO: relative path to file
 
+#dir = os.path.dirname(os.path.realpath(__file__))
 credentials = yaml.load(open('./credentials.yaml'))
 client.connect(credentials['mqtt_broker_host'], 1883, 60)
 
