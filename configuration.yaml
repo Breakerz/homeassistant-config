@@ -1,5 +1,6 @@
 homeassistant:
 
+
   # Name of the location where Home Assistant is running
   name: Home
   # Location required to calculate the time the sun rises and sets
@@ -140,7 +141,13 @@ google_assistant:
       expose: true
       name: table
     light.solarium:
-     expose: true
+      expose: true
+    group.cuisine_lights:
+      expose: true
+      name: cuisine
+    group.salle_jeux:
+      expose: true
+      name: Salle de jeux
 
 # Text to speech
 tts:

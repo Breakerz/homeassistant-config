@@ -151,6 +151,16 @@ salle_jeux:
     - light.salon_soussol_1
     - light.salon_soussol_2
 
+cuisine_lights:
+  name: Lumières cuisine
+  icon: mdi:food-fork-drink
+  entities:
+    - light.table_1
+    - light.table_2
+    - light.level_2
+    - light.level_3
+    - light.entree_interieur_light
+    
 ##Scripts
 
 ##Sensors PIR

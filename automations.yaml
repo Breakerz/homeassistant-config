@@ -1,4 +1,20 @@
 
+- id: mode_bain_auto_off
+  alias: Mode bain auto-off
+  hide_entity: false
+  initial_state: true
+  trigger:
+  - entity_id: input_boolean.mode_bath
+    from: 'off'
+    platform: state
+    to: 'on'
+    for:
+      minutes: 60
+  action:
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.mode_bath
+        
 - id: motion_salon_on
   initial_state: true
   alias: Salon allumer automatiquement
@@ -43,6 +59,9 @@
         click_type: long_click_press
 
   action:
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.mode_night
     - service: input_boolean.turn_on
       data:
         entity_id: input_boolean.mode_night
@@ -398,15 +417,8 @@
         entity_id: light.level
         brightness: 5
 
-    - service: light.turn_on
-      data:
-        entity_id: light.gateway_light_7811dcb21414
-        color_name: >
-            {% if is_state('input_boolean.mode_night', 'on') %}
-              red
-            {% else %}
-              white
-            {% endif %}
+    - service: script.couloir_red
+
 #$#
 - id: bathroom_motion_off_redlight
   alias: Eteindre lumiere rouge la nuit auto

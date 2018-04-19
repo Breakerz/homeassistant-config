@@ -34,3 +34,6 @@
   host: !secret cast_cc2
 
 
+- platform: vlc
+  name: vlc
+#  arguments: '--alsa-audio-device=hw:1,0'

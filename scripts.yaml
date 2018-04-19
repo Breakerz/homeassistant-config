@@ -7,6 +7,17 @@ update_kodi_library:
        method: VideoLibrary.Scan
 
 #############################################
+couloir_red:
+  sequence:
+    - service: light.turn_on
+      data_template:
+        entity_id: light.gateway_light_7811dcb21414
+        color_name: >
+            {% if is_state('input_boolean.mode_night', 'on') %}
+              red
+            {% else %}
+              white
+            {% endif %}
 tv_insignia_sleep_5minutes:
   sequence:
   - service: switch.turn_on
@@ -31,10 +42,22 @@ set_away_mode:
     - service: scene.turn_on
       data :
         entity_id: scene.byebye
+    - service: script.tv_cuisine_sleep
     - service: notify.pushbullet
       data:
         title: byebye
         message: Away mode activated
+
+tv_cuisine_sleep:
+  sequence:
+    - service: switch.broadlink_send_packet_192_168_0_19
+      data: 
+        packet : JgBQAAABKJIVERQ2FTYUERUQFREUERU2FDYVEBU2FBEVERQRFRAVERQ2FTYUERUQFTYUERURFBEVERQRFTUVNhQRFTUVNhQ2FQAFcgABKEgVAA0FAAAAAAAAAAA===
+    - delay: 00:00:02
+    - service: switch.broadlink_send_packet_192_168_0_19
+      data: 
+        packet : JgBQAAABKJIVERQ2FTYUERUQFREUERU2FDYVEBU2FBEVERQRFRAVERQ2FTYUERUQFTYUERURFBEVERQRFTUVNhQRFTUVNhQ2FQAFcgABKEgVAA0FAAAAAAAAAAA===
+
 
 set_bath_mode:
   sequence:
@@ -49,16 +72,16 @@ close_led:
   sequence:
     - service: switch.turn_on
       data:
-        entity_id: switch.led_red
+        entity_id: switch.led_sa_red
     - service: switch.turn_on
       data:
-        entity_id: switch.led_white
+        entity_id: switch.led_sa_white
     - service: switch.turn_on
       data:
-        entity_id: switch.led_red
+        entity_id: switch.led_sa_red
     - service: switch.turn_on
       data:
-        entity_id: switch.led_power
+        entity_id: switch.led_sous_armoire_power
 
 
 
