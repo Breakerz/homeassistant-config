@@ -1,4 +1,280 @@
 
+- id: plafond_salle_bain_ferme_miroir
+  alias: Plafond salle de bain ferme le miroir
+  hide_entity: true
+  trigger: 
+    - platform: state
+      entity_id: light.haut_plafond
+      to: 'off'
+      for:
+        seconds: 1
+  condition:
+    - condition: state
+      entity_id: light.level
+      state: 'on'
+  action:
+    - service: light.turn_off
+      entity_id: light.level    
+###################################################
+- id: patrick_Occupancy_home
+  alias: Patrick Occupancy Home 
+  hide_entity: true
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.nashville_cuisine
+      above: 50
+      
+    - platform: time
+      seconds: 30
+      
+  condition:
+    condition: and
+    conditions:
+      - condition: numeric_state
+        entity_id: 'sensor.nashville_cuisine'
+        above: 10
+        
+      - condition: state
+        entity_id: 'input_boolean.patrick_occupancy'
+        state: 'off'        
+  action:
+    - service: homeassistant.turn_on
+      data:
+        entity_id: input_boolean.patrick_occupancy
+
+
+- alias: patrick_Occupancy_Away
+  hide_entity: true
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.nashville_cuisine
+      below: 10
+    - platform: time
+      seconds: 5
+  condition:
+    condition: and
+    conditions:
+      - condition: numeric_state
+        entity_id: 'sensor.nashville_cuisine'
+        below: 10 
+      - condition: state
+        entity_id: 'input_boolean.patrick_occupancy'
+        state: 'on'
+#      - condition: state
+#        entity_id: 'input_boolean.1fl_recent_door_access'
+#        state: 'on'
+  action:
+    - service: homeassistant.turn_off
+      data:
+        entity_id: input_boolean.patrick_occupancy
+############################################################
+- id: patricia_Occupancy_home
+  alias: Patricia Occupancy Home 
+  hide_entity: true
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.patricia_cuisine
+      above: 10
+      
+    - platform: time
+      seconds: 30
+      
+  condition:
+    condition: and
+    conditions:
+      - condition: numeric_state
+        entity_id: 'sensor.patricia_cuisine'
+        above: 50
+        
+      - condition: state
+        entity_id: 'input_boolean.patricia_occupancy'
+        state: 'off'        
+  action:
+    - service: homeassistant.turn_on
+      data:
+        entity_id: input_boolean.patricia_occupancy
+
+
+- alias: patricia_Occupancy_Away
+  hide_entity: true
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.patricia_cuisine
+      below: 10
+    - platform: time
+      seconds: 30
+  condition:
+    condition: and
+    conditions:
+      - condition: numeric_state
+        entity_id: 'sensor.patricia_cuisine'
+        below: 10 
+      - condition: state
+        entity_id: 'input_boolean.patricia_occupancy'
+        state: 'on'
+#      - condition: state
+#        entity_id: 'input_boolean.1fl_recent_door_access'
+#        state: 'on'
+  action:
+    - service: homeassistant.turn_off
+      data:
+        entity_id: input_boolean.patricia_occupancy
+
+############################################################
+- id: nut_Occupancy_home
+  alias: Nut Occupancy Home 
+  hide_entity: true
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.nut_cuisine
+      above: 10
+      
+    - platform: time
+      seconds: 50
+      
+  condition:
+    condition: and
+    conditions:
+      - condition: numeric_state
+        entity_id: 'sensor.nut_cuisine'
+        above: 10
+        
+      - condition: state
+        entity_id: 'input_boolean.nut_occupancy'
+        state: 'off'        
+  action:
+    - service: homeassistant.turn_on
+      data:
+        entity_id: input_boolean.nut_occupancy
+
+
+- alias: nut_Occupancy_Away
+  hide_entity: true
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.nut_cuisine
+      below: 10
+    - platform: time
+      seconds: 30
+  condition:
+    condition: and
+    conditions:
+      - condition: numeric_state
+        entity_id: 'sensor.nut_cuisine'
+        below: 10 
+      - condition: state
+        entity_id: 'input_boolean.nut_occupancy'
+        state: 'on'
+#      - condition: state
+#        entity_id: 'input_boolean.1fl_recent_door_access'
+#        state: 'on'
+  action:
+    - service: homeassistant.turn_off
+      data:
+        entity_id: input_boolean.nut_occupancy        
+        
+############################################################
+- id: porte_laveuse_fermee_notification
+  alias: Porte Laveuse Fermee Notification
+  hide_entity: false
+  initial_state: true
+  trigger:
+  - entity_id: binary_sensor.door_window_sensor_158d000204befb
+    from: 'on'
+    platform: state
+    to: 'off'
+    for:
+      minutes: 60
+
+  - entity_id: binary_sensor.door_window_sensor_158d000204befb
+    from: 'on'
+    platform: state
+    to: 'off'
+    for:
+      minutes: 75
+
+  - entity_id: binary_sensor.door_window_sensor_158d000204befb
+    from: 'on'
+    platform: state
+    to: 'off'
+    for:
+      minutes: 90
+
+  - entity_id: binary_sensor.door_window_sensor_158d000204befb
+    from: 'on'
+    platform: state
+    to: 'off'
+    for:
+      hours: 2                    
+
+  - entity_id: binary_sensor.door_window_sensor_158d000204befb
+    from: 'on'
+    platform: state
+    to: 'off'
+    for:
+      hours: 3                   
+  action:
+    service: notify.pushbullet
+    data_template:
+      title: Porte laveuse fermée
+      message: La porte de la laveuse est restée fermée.
+
+- id: sonnette
+  alias: Sonnette
+  hide_entity: false
+  initial_state: true 
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.sonnette
+    from: 'off'
+    to: 'on'
+
+  condition:
+    - condition: state
+      entity_id: 'input_boolean.sonnette'
+      state: 'off'
+
+  action:
+    - service: input_boolean.turn_on
+      data:
+        entity_id: input_boolean.sonnette  
+    - service : script.notify_sonette
+    - delay: 00:00:10
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.sonnette  
+    
+
+- id: porte_laveuse_fermee_light
+  alias: Porte Laveuse Fermee Lumiere
+  hide_entity: false
+  initial_state: true
+  trigger:
+  - entity_id: binary_sensor.door_window_sensor_158d000204befb
+    from: 'on'
+    platform: state
+    to: 'off'  
+  action:
+    - service: light.turn_on
+      data:
+        entity_id: light.laveusesecheuse
+
+- id: porte_laveuse_light_off
+  alias: Porte Laveuse light off
+  hide_entity: false
+  initial_state: true
+  trigger:
+  - entity_id: binary_sensor.door_window_sensor_158d000204befb
+    from: 'off'
+    platform: state
+    to: 'on'
+    for:
+      minutes: 60    
+  action:
+    - service: light.turn_off
+      data:
+        entity_id: light.laveusesecheuse
+
 - id: mode_bain_auto_off
   alias: Mode bain auto-off
   hide_entity: false
@@ -43,19 +319,54 @@
     #   data:
     #     entity_id: automation.motion_salon_off
 
+
+##########################################
+- id: motion_salon_off
+  initial_state: true
+  alias: Salon eteindre automatiquement
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_sensor_158d0001e0abd1
+    from: 'on'
+    to: 'off'
+    for:
+      minutes: 20
+  action:
+    - service: light.turn_off
+      entity_id: light.salon_1
+    - service: light.turn_off
+      entity_id: light.salon_2
+
+- id: motion_salon_tv_off
+  initial_state: true
+  alias: Salon eteindre automatiquement tv
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_sensor_158d0001e0abd1
+    from: 'on'
+    to: 'off'
+    for:
+      minutes: 60
+  action:
+    - service: switch.turn_off
+      entity_id: switch.tv_phillips
+
+
+##bouton patricia ################################
 - id: button_xiaomi_long_press
   alias: Long press Button Ferme tout
   trigger:
+
     - platform: event
       event_type: click
       event_data:
-        entity_id: binary_sensor.switch_158d0001be5b44
+        entity_id: binary_sensor.switch_158d0001be5c07 #button patricia
         click_type: long_click_press
 
     - platform: event
       event_type: click
       event_data:
-        entity_id: binary_sensor.switch_158d0001be5c07
+        entity_id: binary_sensor.switch_158d000201a2ef #button patrick
         click_type: long_click_press
 
   action:
@@ -73,19 +384,18 @@
     - platform: event
       event_type: click
       event_data:
-        entity_id: binary_sensor.switch_158d0001be5b44
+        entity_id: binary_sensor.switch_158d0001be5c07 #button patricia
         click_type: double
-
+        
     - platform: event
       event_type: click
       event_data:
-        entity_id: binary_sensor.switch_158d0001be5c07
+        entity_id: binary_sensor.switch_158d000201a2ef #button patrick
         click_type: double
 
   action:
     - service: light.toggle
       entity_id: light.chambre
-
 
 - id: button_xiaomi_single_click
   alias: Simple Click Button Chevets
@@ -93,39 +403,103 @@
     - platform: event
       event_type: click
       event_data:
-        entity_id: binary_sensor.switch_158d0001be5b44
+        entity_id: binary_sensor.switch_158d0001be5c07 #button patricia
         click_type: single
 
     - platform: event
       event_type: click
       event_data:
-        entity_id: binary_sensor.switch_158d0001be5c07
+        entity_id: binary_sensor.switch_158d000201a2ef #button patrick
         click_type: single
+        
 
   action:
     - service: light.toggle
       entity_id: light.chevets
 
-- id: motion_salon_off
-  initial_state: true
-  alias: Salon eteindre automatiquement
+####button chambre ##############################
+
+- id: button_xiaomi_single_click_chambre
+  alias: Simple Click Button Chambre off
   trigger:
-    platform: state
-    entity_id: binary_sensor.motion_sensor_158d0001e0abd1
-    from: 'on'
-    to: 'off'
-    for:
-      minutes: 15
+    - platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d0001be5b44
+        click_type: single
+  condition:
+    - condition: template
+      value_template:  '{{ is_state("light.chambre_pat_et_pat", "on") }}'    
   action:
     - service: light.turn_off
-      entity_id: light.salon_1
-    - service: light.turn_off
-      entity_id: light.salon_2
-    # - service: automation.turn_off
-    #   data:
-    #     entity_id: automation.motion_salon_off
+      entity_id: light.chambre_pat_et_pat      
 
-#############################
+- id: button_xiaomi_single_click_chambre2
+  alias: Simple Click Button Chambre on
+  trigger:
+    - platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d0001be5b44
+        click_type: single
+  condition:
+    - condition: template
+      value_template:  '{{ is_state("light.chambre_pat_et_pat", "off") }}'    
+
+  action:
+    - service: light.turn_on
+      entity_id: light.chambre_pat_et_pat
+      data:
+        brightness: 60
+
+
+- id: button_xiaomi_double_click_chambre
+  alias: Double Click Chambre on
+  trigger:
+    - platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d0001be5b44
+        click_type: double  
+  condition:
+    - condition: template
+      value_template:  '{{ is_state("group.chambre_lights", "off") }}'                  
+  action:
+    - service: homeassistant.turn_on
+      entity_id: group.chambre_lights
+
+- id: button_xiaomi_double_click_chambre2
+  alias: Double Click Chambre off
+  trigger:
+    - platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d0001be5b44
+        click_type: double  
+  condition:
+    - condition: template
+      value_template:  '{{ is_state("group.chambre_lights", "on") }}'                  
+  action:
+    - service: homeassistant.turn_off
+      entity_id: group.chambre_lights      
+
+- id: button_xiaomi_long_press_chambre
+  alias: Long press Button Chambre
+  trigger:
+    - platform: event
+      event_type: click
+      event_data:
+        entity_id: binary_sensor.switch_158d0001be5b44
+        click_type: long_click_press
+  action:
+    - service: light.turn_on
+      entity_id: light.chambre_pat_et_pat
+      data:
+        brightness: 255
+
+
+
+      
 
 
 - id: motion_soussol_on
@@ -136,9 +510,20 @@
     from: 'off'
     to: 'on'
   condition:
-    condition: numeric_state
-    entity_id: sensor.illumination_158d0001e0b1f6
-    below: 10
+    condition: and
+    conditions:    
+      - condition: numeric_state
+        entity_id: sensor.illumination_158d0001e0b1f6
+        below: 10
+        
+      - condition: state
+        entity_id: input_boolean.mode_night
+        state: 'off'
+
+      - condition: state
+        entity_id: input_boolean.auto_motion_sousol
+        state: 'on'    
+
   action:
     - service: light.turn_on
       entity_id: light.salon_soussol_1
@@ -157,6 +542,10 @@
     to: 'off'
     for:
       minutes: 10
+  condition:
+    - condition: state
+      entity_id: input_boolean.auto_motion_sousol
+      state: 'on'     
   action:
     - service: light.turn_off
       entity_id: light.salon_soussol_1
@@ -222,115 +611,127 @@
 #     service: script.turn_on
 #     entity_id: script.set_away_mode
 
+
+# - id: sonnette
+#   alias: sonnette
+#   trigger:
+#   - platform: mqtt
+#     topic: 'house/doorbell'
+#   action:
+#     - service: xiaomi_aqara.play_ringtone
+#       data:
+#         ringtone_id: 10
+#         gw_mac: !secret xiaomi_mac
+#         ringtone_vol: 7
 #############################################
-- id: pat_button1
-  alias: ManettePat1
-  hide_entity: false
-  initial_state: true
-  trigger:
-  - platform: mqtt
-    topic: 'RTL_433/Raw/15097'
-  condition:
-    condition: template
-    value_template: '{{ trigger.payload_json.code == "475f32" }}'
-  action:
-    # - service: script.turn_on
-    #   entity_id: script.set_away_mode
+# - id: pat_button1
+#   alias: ManettePat1
+#   hide_entity: false
+#   initial_state: true
+#   trigger:
+#   - platform: mqtt
+#     topic: 'RTL_433/Raw/15097'
+#   condition:
+#     condition: template
+#     value_template: '{{ trigger.payload_json.code == "475f32" }}'
+#   action:
+#     # - service: script.turn_on
+#     #   entity_id: script.set_away_mode
 
-    - service: input_boolean.turn_on
-      data:
-        entity_id: input_boolean.mode_night
+#     - service: input_boolean.turn_on
+#       data:
+#         entity_id: input_boolean.mode_night
 
-- id: pat_button2
-  alias: ManettePat2
-  hide_entity: false
-  initial_state: true
-  trigger:
-  - platform: mqtt
-    topic: 'RTL_433/Raw/15097'
-  condition:
-    condition: template
-    value_template: '{{ trigger.payload_json.code == "175f32" }}'
-  action:
-    service: light.toggle
-    entity_id:
-      - light.chambre
-    data:
-       entity_id: light.chambre
+# - id: pat_button2
+#   alias: ManettePat2
+#   hide_entity: false
+#   initial_state: true
+#   trigger:
+#   - platform: mqtt
+#     topic: 'RTL_433/Raw/15097'
+#   condition:
+#     condition: template
+#     value_template: '{{ trigger.payload_json.code == "175f32" }}'
+#   action:
+#     service: light.toggle
+#     entity_id:
+#       - light.chambre
+#     data:
+#        entity_id: light.chambre
 
-- id: pat_button3
-  alias: ManettePat3
-  hide_entity: false
-  initial_state: true
-  trigger:
-  - platform: mqtt
-    topic: 'RTL_433/Raw/15097'
-  condition:
-    condition: template
-    value_template: '{{ trigger.payload_json.code == "275f32" }}'
-  action:
-  - service: light.toggle
-    entity_id:
-      - light.chevets
-    data:
-       entity_id: light.chevets
-###################################################
+# - id: pat_button3
+#   alias: ManettePat3
+#   hide_entity: false
+#   initial_state: true
+#   trigger:
+#   - platform: mqtt
+#     topic: 'RTL_433/Raw/15097'
+#   condition:
+#     condition: template
+#     value_template: '{{ trigger.payload_json.code == "275f32" }}'
+#   action:
+#   - service: light.toggle
+#     entity_id:
+#       - light.chevets
+#     data:
+#        entity_id: light.chevets
+# ###################################################
 
-#####manette patricia########################################
-- id: pate_button1
-  alias: ManettePate1
-  hide_entity: false
-  initial_state: true
-  trigger:
-  - platform: mqtt
-    topic: 'RTL_433/Raw/24268'
-  condition:
-    condition: template
-    value_template: '{{ trigger.payload_json.code == "4bd993" }}'
-  action:
-    # - service: script.turn_on
-    #   entity_id: script.set_away_mode
+# #####manette patricia########################################
+# - id: pate_button1
+#   alias: ManettePate1
+#   hide_entity: false
+#   initial_state: true
+#   trigger:
+#   - platform: mqtt
+#     topic: 'RTL_433/Raw/24268'
+#   condition:
+#     condition: template
+#     value_template: '{{ trigger.payload_json.code == "4bd993" }}'
+#   action:
+#     # - service: script.turn_on
+#     #   entity_id: script.set_away_mode
 
-    - service: input_boolean.turn_on
-      data:
-        entity_id: input_boolean.mode_night
+#     - service: input_boolean.turn_on
+#       data:
+#         entity_id: input_boolean.mode_night
 
-- id: pate_button2
-  alias: ManettePate2
-  hide_entity: false
-  initial_state: true
-  trigger:
-  - platform: mqtt
-    topic: 'RTL_433/Raw/24268'
-  condition:
-    condition: template
-    value_template: '{{ trigger.payload_json.code == "1bd993" }}'
-  action:
-    service: light.toggle
-    entity_id:
-      - light.chambre
-    data:
-       entity_id: light.chambre
+# - id: pate_button2
+#   alias: ManettePate2
+#   hide_entity: false
+#   initial_state: true
+#   trigger:
+#   - platform: mqtt
+#     topic: 'RTL_433/Raw/24268'
+#   condition:
+#     condition: template
+#     value_template: '{{ trigger.payload_json.code == "1bd993" }}'
+#   action:
+#     service: light.toggle
+#     entity_id:
+#       - light.chambre
+#     data:
+#        entity_id: light.chambre
 
-- id: pate_button3
-  alias: ManettePate3
-  hide_entity: false
-  initial_state: true
-  trigger:
-  - platform: mqtt
-    topic: 'RTL_433/Raw/24268'
-  condition:
-    condition: template
-    value_template: '{{ trigger.payload_json.code == "2bd993" }}'
-  action:
-  - service: light.toggle
-    entity_id:
-      - light.chevets
-    data:
-       entity_id: light.chevets
+# - id: pate_button3
+#   alias: ManettePate3
+#   hide_entity: false
+#   initial_state: true
+#   trigger:
+#   - platform: mqtt
+#     topic: 'RTL_433/Raw/24268'
+#   condition:
+#     condition: template
+#     value_template: '{{ trigger.payload_json.code == "2bd993" }}'
+#   action:
+#   - service: light.toggle
+#     entity_id:
+#       - light.chevets
+#     data:
+#        entity_id: light.chevets
 
 
-#############################################
+# #############################################
 
 - id: night_mode_switch
   alias: bascule au mode nuit
@@ -340,7 +741,7 @@
     to: 'on'
   action:
     - service: script.turn_on
-      entity_id: script.set_away_mode
+      entity_id: script.set_night_mode
 ####
 
 - id: open_patio_night
@@ -364,38 +765,40 @@
   action:
      - service: light.turn_on
        entity_id: light.exterieur_balcon
-     - service: automation.turn_on
-       data:
-         entity_id: automation.close_patio_night
+#     - service: automation.turn_on
+#       data:
+#         entity_id: automation.close_patio_night
 
 #######
 #############################################
 - id: close_patio_night
   alias: Fermeture de la porte patio soir
   hide_entity: false
-  initial_state: false
+  initial_state: true
   trigger:
   - entity_id: binary_sensor.door_window_sensor_158d0002251481
     from: 'on'
     platform: state
     to: 'off'
     for:
-      #seconds: 5
-      minutes: 30
+      minutes: 20
   action:
     - service: light.turn_off
       entity_id: light.exterieur_balcon
-    - service: automation.turn_off
-      data:
-        entity_id: automation.close_patio_night
+#    - service: automation.turn_off
+#      data:
+#        entity_id: automation.close_patio_night
 
 ########
-- id: bathroom_motion_ona
-  alias: bathroom_motion_onb
+
+####
+
+- id: open_tambour_night
+  alias: Ouverture de la porte tambour soir
   hide_entity: false
   initial_state: true
   trigger:
-  - entity_id: binary_sensor.bathroom_room_movement
+  - entity_id: binary_sensor.door_window_sensor_158d00026aee2c
     from: 'off'
     platform: state
     to: 'on'
@@ -403,19 +806,111 @@
   - condition: and
     conditions:
     - condition: state
-      entity_id: light.level
+      entity_id: light.exterieur_tambour
       state: 'off'
     - condition: state
       entity_id: sun.sun
       state: 'below_horizon'
+  action:
+     - service: light.turn_on
+       entity_id: light.exterieur_tambour
+#     - service: automation.turn_on
+#       data:
+#         entity_id: automation.close_patio_night
+
+#######
+#############################################
+- id: close_patio_night
+  alias: Fermeture de la porte Tambour soir
+  hide_entity: false
+  initial_state: true
+  trigger:
+  - entity_id: binary_sensor.door_window_sensor_158d00026aee2c
+    from: 'on'
+    platform: state
+    to: 'off'
+    for:
+      minutes: 20
+  action:
+    - service: light.turn_off
+      entity_id: light.exterieur_tambour
+#    - service: automation.turn_off
+#      data:
+#        entity_id: automation.close_patio_night
+
+
+- id: Pompe_leak
+  alias: Pompe Leak
+  hide_entity: false
+  initial_state: true
+ # trigger:
+ # - entity_id: binary_sensor.bathroom_room_movement
+ #   from: 'off'
+ #   platform: state
+ #   to: 'on'
+  trigger:
+    platform: state
+    entity_id: binary_sensor.water_leak_sensor_158d0002369214
+    from: 'off'
+    to: 'on'
+  action:
+    - service: notify.pushbullet
+      data_template:
+        title: Leak Pompe
+        message: Leak Pompe
+    
+    - service: tts.amazon_polly_say
+      data_template:
+        entity_id: media_player.vlc
+        message: ATTENTION! URGENT! Il y a un débordement, aller voir la pompe vite!  ATTENTION! URGENT! Il y a un débordement, aller voir la pompe vite!  ATTENTION! URGENT! Il y a un débordement, aller voir la pompe vite!  ATTENTION! URGENT! Il y a un débordement, aller voir la pompe vite! 
+
+- id: bathroom_motion_on
+  alias: Allume la Lumière de la salle
+  hide_entity: false
+  initial_state: true
+ # trigger:
+ # - entity_id: binary_sensor.bathroom_room_movement
+ #   from: 'off'
+ #   platform: state
+ #   to: 'on'
+  trigger:
+    platform: state
+    entity_id: binary_sensor.bathroom_room_movement #binary_sensor.motion_sensor_158d0002012d30
+    from: 'off'
+    to: 'on'
+
+  condition:
     - condition: state
       entity_id: input_boolean.mode_bath
       state: 'off'
   action:
     - service: light.turn_on
-      data:
+      data_template:
         entity_id: light.level
-        brightness: 5
+        brightness: >
+          {% if is_state('input_boolean.mode_night','on') %}
+            5
+          {% else %}
+            {% if now().hour > 7 and now().hour < 21 %}
+              255
+            {% else %}
+              150
+            {% endif %}            
+          {% endif %}
+  
+    - service: light.turn_on
+      data_template:
+        entity_id: light.haut_plafond
+        brightness: >
+          {% if is_state('input_boolean.mode_night','on') %}
+            15
+          {% else %}
+            {% if now().hour > 7 and now().hour < 21 %}
+              255
+            {% else %}
+              150
+            {% endif %}            
+          {% endif %}
 
     - service: script.couloir_red
 
@@ -424,10 +919,17 @@
   alias: Eteindre lumiere rouge la nuit auto
   hide_entity: false
   initial_state: true
+#  trigger:
+#  - entity_id: binary_sensor.bathroom_room_movement
+#    from: 'on'
+#    platform: state
+#    to: 'off'
+#    for:
+#      minutes: 2
   trigger:
-  - entity_id: binary_sensor.bathroom_room_movement
-    from: 'on'
     platform: state
+    entity_id: binary_sensor.bathroom_room_movement #binary_sensor.motion_sensor_158d0002012d30
+    from: 'on'
     to: 'off'
     for:
       minutes: 2
@@ -444,13 +946,20 @@
   alias: bathroom_motion_offb
   hide_entity: false
   initial_state: true
+#  trigger:
+#  - entity_id: binary_sensor.bathroom_room_movement
+#    from: 'on'
+#    platform: state
+#    to: 'off'
+#    for:
+#      minutes: 2
   trigger:
-  - entity_id: binary_sensor.bathroom_room_movement
-    from: 'on'
     platform: state
+    entity_id: binary_sensor.bathroom_room_movement #binary_sensor.motion_sensor_158d0002012d30
+    from: 'on'
     to: 'off'
-    for:
-      minutes: 2
+    for: 
+      minutes: 4
   condition:
   - condition: state
     entity_id: input_boolean.mode_bath
@@ -459,6 +968,9 @@
   - service: light.turn_off
     entity_id:
       - light.level
+  - service: light.turn_off
+    entity_id:
+      - light.haut_plafond      
 
 - id: new_release
   alias: New Release notifications
@@ -618,9 +1130,13 @@
     platform: sun
   condition: []
   action:
-  - data:
+  - service: light.turn_on
+    data:
       entity_id: light.lampadaire
-    service: light.turn_on
+  - service: light.turn_on
+    data:
+      entity_id: light.exterieur_entreenord
+        
 
 - id: lampadaire_off
   alias: "Lampadaire OFF"
@@ -631,9 +1147,12 @@
     platform: time
   condition: []
   action:
-  - data:
+  - service: light.turn_off
+    data:
       entity_id: light.lampadaire
-    service: light.turn_off
+  - service: light.turn_off
+    data:
+      entity_id: light.exterieur_entreenord
 
 - id: entree_on
   alias: "Entrée ON"
@@ -680,3 +1199,213 @@
   - service: homeassistant.turn_off
     data:
       entity_id: switch.deco_ext
+
+
+
+- alias: Mark person as just arrived
+  id: just_arrived_auto
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.patrick_occupancy_on
+      from: 'off'
+      to: 'on'
+    - platform: state
+      entity_id: binary_sensor.patricia_occupancy_on
+      from: 'off'
+      to: 'on'
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: >
+          {% if trigger.entity_id == 'binary_sensor.patrick_occupancy_on' %}
+            input_select.patrick_status_dropdown
+          {% else %}
+            input_select.patricia_status_dropdown
+          {% endif %}
+        option: Just Arrived
+
+- alias: Mark person as home
+  id: home_auto
+  trigger:
+    - platform: state
+      entity_id: input_select.patrick_status_dropdown
+      to: 'Just Arrived'
+      for:
+        minutes: 10
+    - platform: state
+      entity_id: input_select.patricia_status_dropdown
+      to: 'Just Arrived'
+      for:
+        minutes: 10
+    - platform: state
+      entity_id: input_select.patrick_status_dropdown
+      from: 'Just Left'
+      to: 'Just Arrived'
+    - platform: state
+      entity_id: input_select.patricia_status_dropdown
+      from: 'Just Left'
+      to: 'Just Arrived'
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: >
+          {% if trigger.entity_id == 'input_select.patrick_status_dropdown' %}
+            input_select.patrick_status_dropdown
+          {% else %}
+            input_select.patricia_status_dropdown
+          {% endif %}
+        option: Home
+
+- alias: Mark person as just left
+  id: just_left_auto
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.patrick_occupancy_on
+      from: 'on'
+      to: 'off'
+    - platform: state
+      entity_id: binary_sensor.patricia_occupancy_on
+      from: 'on'
+      to: 'off'      
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: >
+          {% if trigger.entity_id == 'binary_sensor.patrick_occupancy_on' %}
+            input_select.patrick_status_dropdown
+          {% else %}
+            input_select.patricia_status_dropdown
+          {% endif %}
+        option: Just Left
+
+- alias: Mark person as away
+  id: away_auto
+  trigger:
+    - platform: state
+      entity_id: input_select.patrick_status_dropdown
+      to: 'Just Left'
+      for:
+        minutes: 10
+    - platform: state
+      entity_id: input_select.patricia_status_dropdown
+      to: 'Just Left'
+      for:
+        minutes: 10
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: >
+          {% if trigger.entity_id == 'input_select.patrick_status_dropdown' %}
+            input_select.patrick_status_dropdown
+          {% else %}
+            input_select.patricia_status_dropdown
+          {% endif %}
+        option: Away
+
+- alias: Mark person as extended away
+  id: ext_away_auto
+  trigger:
+    - platform: state
+      entity_id: input_select.patrick_status_dropdown
+      to: 'Away'
+      for:
+        hours: 24
+    - platform: state
+      entity_id: input_select.patricia_status_dropdown
+      to: 'Away'
+      for:
+        hours: 24
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: >
+          {% if trigger.entity_id == 'input_select.patrick_status_dropdown' %}
+            input_select.patrick_status_dropdown
+          {% else %}
+            input_select.patricia_status_dropdown
+          {% endif %}
+        option: Extended Away
+
+
+- id: all_people_away
+  alias: routine tout le monde absent
+  hide_entity: true
+  trigger:
+    - platform: state
+      entity_id: sensor.patrick_status
+      to: 'Away'
+
+    - platform: state
+      entity_id: sensor.patricia_status
+      to: 'Away'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: sensor.patrick_status
+        state: 'Away'      
+        
+      - condition: state
+        entity_id: sensor.patricia_status
+        state: 'Away'
+#      - condition: state
+#        entity_id: input_boolean.mode_away
+#        state: 'off'
+             
+  action:
+    - service: notify.pushbullet
+      data:
+        title: Bye Auto
+        message: Routine depart a la maison 
+    - service: homeassistant.turn_off
+      data:
+        entity_id: input_boolean.mode_away
+    - service: homeassistant.turn_on
+      data:
+        entity_id: input_boolean.mode_away
+
+- id: exist_away_mode
+  alias: routine arrive a la maison
+  hide_entity: true
+  trigger:
+    - platform: state
+      entity_id: sensor.patrick_status
+      to: 'Just Arrived'
+
+    - platform: state
+      entity_id: sensor.patricia_status
+      to: 'Just Arrived'
+  condition:
+      - condition: state
+        entity_id: input_boolean.mode_away
+        state: 'on'      
+  action:
+    - service: notify.pushbullet
+      data:
+        title: Bienvenue Auto
+        message: Routine arrive a la maison  
+
+    - service: homeassistant.turn_off
+      data:
+        entity_id: input_boolean.mode_away
+
+- id: away_mode_switch
+  alias: bascule au mode Absent
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_away
+    to: 'on'
+  action:
+    - service: script.set_away_mode
+
+- id: away_mode_exit
+  alias: bascule au mode Present
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mode_away
+    to: 'off'
+  action:
+    - service: notify.pushbullet
+      data:
+        title: Bienvenue
+        message: Away mode desactivate  

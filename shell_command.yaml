@@ -3,3 +3,6 @@ hibernate_miami_cmd: !secret hivernate_miami_cmd #'ssh user@host sudo systemctl 
 #backuphass: '/home/homeassistant/.homeassistant/scripts/backuphass.py'
 
 save_json: /home/homeassistant/.homeassistant/scripts/savejson.py /home/homeassistant/.homeassistant/files_sensors/db.json {{tag}} {{value}}
+pihole_on: !secret pi_hole_switch_on
+pihole_off: !secret pi_hole_switch_off
+kill_nvidia_app: '/home/homeassistant/.homeassistant/scripts/nvidia_kill.sh {{ states.sensor.nvidia_current_app.state }}'

@@ -1,9 +1,21 @@
 #Using binary sensor, help to determine if movement is on or off... 
+
+- platform: template
+  sensors:
+    portes:
+      friendly_name: Portes
+      value_template: "{{ is_state('binary_sensor.door_window_sensor_158d0002251481', 'on') or is_state('binary_sensor.door_window_sensor_158d00026aee2c', 'on')  }}"
+      entity_id: 
+        - binary_sensor.door_window_sensor_158d0002251481
+        - binary_sensor.door_window_sensor_158d00026aee2c
+      device_class: door
+
 - platform: template
   sensors:
     bathroom_room_movement:
       friendly_name: Bathroom_Room_Movement
-      value_template: "{{not is_state('sensor.motion_salle_bain', 'unknown')}}"
+      device_class: motion
+      value_template: "{{ is_state('binary_sensor.motion_sensor_158d0002012d30', 'on') or (not is_state('sensor.motion_salle_bain', 'unknown')) }}"
 
 ### Not working... keep to test
 #- platform: template
@@ -12,11 +24,58 @@
 #       friendly_name: Cuisine_Room_Movement
 #       value_template: "{{not (is_state('sensor.motion_cuisine1', 'unknown') and is_state('sensor.motion_cuisine2', 'unknown') and is_state('sensor.motion_cuisine4', 'unknown') and is_state('sensor.motion_cuisine8', 'unknown') ) }}"
 
+- platform: mqtt
+  name: "sonnette"
+  state_topic: "doorbell/binary_sensor/doorbell/state"
+  payload_available: "doorbell/status"
+  device_class: door
+  
+
 - platform: template
   sensors:
     wakeup:
       friendly_name: "Wakeup!"
       value_template: "{{ (states.input_datetime.wakeup_time.attributes.timestamp | int | timestamp_custom('%H:%M', False)) == states.sensor.time.state }}"
+
+
+      
+- platform: template
+  sensors:
+    people_home:
+      friendly_name: Présence à la maison
+      value_template: "{{ states.binary_sensor.patrick_occupancy_on.state == 'on' or states.binary_sensor.patricia_occupancy_on.state == 'on'  }}"
+      entity_id: 
+        - binary_sensor.patrick_occupancy_on
+        - binary_sensor.patricia_occupancy_on
+      device_class: occupancy
+      
+- platform: template
+  sensors:
+    patrick_occupancy_on:
+      friendly_name: Patrick Occupancy
+      value_template: "{{ states.input_boolean.patrick_occupancy.state == 'on' or is_state('device_tracker.iphone_patrick', 'home')  }}"
+      entity_id: 
+        - input_boolean.patrick_occupancy
+        - device_tracker.iphone_patrick
+      device_class: occupancy
+      
+- platform: template
+  sensors:
+    patricia_occupancy_on:
+      friendly_name: Patricia Occupancy
+      value_template: "{{ states.input_boolean.patricia_occupancy.state == 'on' or is_state('device_tracker.iphone_patricia', 'home')  }}"
+      entity_id: 
+        - input_boolean.patricia_occupancy
+        - device_tracker.iphone_patricia
+      device_class: occupancy
+
+- platform: template
+  sensors:
+    nut_occupancy_on:
+      friendly_name: Nut Occupancy
+      value_template: "{{ states.input_boolean.nut_occupancy.state == 'on' }}"
+      entity_id: input_boolean.nut_occupancy
+      device_class: occupancy      
 
 ## ToDo : TESTING!! AJUSTING... 
 - platform: bayesian

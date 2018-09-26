@@ -1,0 +1,295 @@
+title: La maison du future
+# Optional background for all views. Check https://developer.mozilla.org/en-US/docs/Web/CSS/background for more examples.
+background: center / cover no-repeat url("/background.png") fixed
+# Exclude entities from "Unused entities" view
+excluded_entities:
+  - zwave.aeotec_zw090_zstick_gen5_us
+views:
+    # View tab title.
+  - title: Home
+    # Optional unique id for direct access /lovelace/${id}
+    id: home
+    # Optional background (overwrites the global background).
+    background: radial-gradient(crimson, skyblue)
+    # Each view can have a different theme applied. Theme should be defined in the frontend.
+    theme: dark-mode
+    # The cards to show on this view.
+    cards:
+        # The filter card will filter entities for their state
+      - type: entity-filter
+        entities:
+          - sensor.patricia_status
+          - sensor.patrick_status
+        state_filter:
+          - 'Home'
+          - 'Just Arrived'
+        card:
+          type: glance
+          title: Qui est là ?
+
+        # The picture entity card will represent an entity with a picture
+      - type: picture-entity
+        image: https://www.home-assistant.io/images/default-social.png
+        entity: light.allchambre
+
+    # Specify a tab icon if you want the view tab to be an icon.
+  - icon: mdi:home-assistant
+    # Title of the view. Will be used as the tooltip for tab icon
+    title: Second view
+    cards:
+        # Entities card will take a list of entities and show their state.
+      - type: entities
+        # Title of the entities card
+        title: Salon
+        # The entities here will be shown in the same order as specified.
+        # Each entry is an entity ID or a map with extra options.
+        entities:
+          - light.salon_1
+          - light.salon_2
+          - entity: binary_sensor.motion_sensor_158d0001e0abd1
+            # Override the name to use
+            name: Présence
+
+        # The markdown card will render markdown text.
+      - type: markdown
+        title: Lovelace
+        content: >
+          Welcome to your **Lovelace UI**.
+  - title: Cuisine
+    icon: mdi:fridge
+    cards :
+      - type: picture-elements
+        image: /local/diffuseur.jpg
+        elements:
+          - type: icon
+            icon: mdi:flash
+            entity: switch.diffuseur
+            tap_action: toggle
+            style:
+                top: 90%
+                left: 90%
+                --ha-label-badge-font-size: 1em
+
+      - type: markdown
+        title: Lovelace
+        content: >
+          Welcome to your **Lovelace UI**.
+
+      - type: picture-elements
+        image: /local/banners/square-grey.jpg
+        elements:
+          - type: image
+            image: /local/icons/animated/media-card/up-arrow.png
+            tap_action: call-service
+            service: shell_command.kodi_up
+            style:
+              top: 5em
+              left: 10em
+              width: 54px
+              height: 54px
+              background-color: rgb(255, 255, 255, 0.8)
+              filter: invert(0.20)
+              border-radius: 4px
+              z-index: 2
+          - type: image
+            image: /local/icons/animated/media-card/home-button.png
+            tap_action: call-service
+            service: shell_command.kodi_home
+            style:
+              top: 5em
+              left: 6em
+              width: 24px
+              height: 24px
+              padding: 15px
+              background-color: rgb(200, 200, 200, 0.5)
+              filter: invert(0.20)
+              border-radius: 4px
+              z-index: 2
+          - type: image
+            image: /local/icons/animated/media-card/update-button.png
+            tap_action: call-service
+            service: shell_command.kodi_update
+            style:
+              top: 5em
+              left: 14em
+              width: 24px
+              height: 24px
+              padding: 15px
+              background-color: rgb(200, 200, 200, 0.5)
+              filter: invert(0.20)
+              border-radius: 4px
+              z-index: 2
+          - type: image
+            image: /local/icons/animated/media-card/poweroff-button.png
+            tap_action: call-service
+            service: shell_command.kodi_power
+            style:
+              top: 5em
+              left: 19em
+              width: 24px
+              height: 24px
+              padding: 15px
+              background-color: rgb(255, 255, 255, 0.8)
+              filter: invert(0.20)
+              border-radius: 4px
+              z-index: 2
+          - type: image
+            image: /local/icons/animated/media-card/left-arrow.png
+            tap_action: call-service
+            service: shell_command.kodi_left
+            style:
+              top: 9em
+              left: 6em
+              width: 54px
+              height: 54px
+              background-color: rgb(255, 255, 255, 0.8)
+              filter: invert(0.20)
+              border-radius: 4px
+              z-index: 2
+          - type: image
+            image: /local/icons/animated/media-card/context-button.png
+            tap_action: call-service
+            service: shell_command.kodi_context
+            style:
+              top: 9em
+              left: 10em
+              width: 24px
+              height: 24px
+              padding: 15px
+              background-color: rgb(200, 200, 200, 0.5)
+              filter: invert(0.20)
+              border-radius: 4px
+              z-index: 2
+          - type: image
+            image: /local/icons/animated/media-card/right-arrow.png
+            tap_action: call-service
+            service: shell_command.kodi_right
+            style:
+              top: 9em
+              left: 14em
+              width: 54px
+              height: 54px
+              background-color: rgb(255, 255, 255, 0.8)
+              filter: invert(0.20)
+              border-radius: 4px
+              z-index: 2
+          - type: image
+            image: /local/icons/animated/media-card/reboot-button.png
+            tap_action: call-service
+            service: shell_command.kodi_restart
+            style:
+              top: 9em
+              left: 19em
+              width: 24px
+              height: 24px
+              padding: 15px
+              background-color: rgb(200, 200, 200, 0.5)
+              filter: invert(0.20)
+              border-radius: 4px
+              z-index: 2
+          - type: image
+            image: /local/icons/animated/media-card/down-arrow.png
+            tap_action: call-service
+            service: shell_command.kodi_down
+            style:
+              top: 13em
+              left: 10em
+              width: 54px
+              height: 54px
+              background-color: rgb(255, 255, 255, 0.8)
+              filter: invert(0.20)
+              border-radius: 4px
+              z-index: 2
+          - type: image
+            image: /local/icons/animated/media-card/clean-button.png
+            tap_action: call-service
+            service: shell_command.kodi_clean
+            style:
+              top: 13em
+              left: 19em
+              width: 24px
+              height: 24px
+              padding: 15px
+              background-color: rgb(255, 255, 255, 0.8)
+              filter: invert(0.20)
+              border-radius: 4px
+              z-index: 2
+          - type: image
+            image: /local/icons/animated/media-card/back-button.png
+            tap_action: call-service
+            service: shell_command.kodi_back
+            style:
+              top: 13em
+              left: 6em
+              width: 24px
+              height: 24px
+              padding: 15px
+              background-color: rgb(200, 200, 200, 0.5)
+              filter: invert(0.20)
+              border-radius: 4px
+              z-index: 2
+          - type: image
+            image: /local/icons/animated/media-card/enter-button.png
+            tap_action: call-service
+            service: shell_command.kodi_enter
+            style:
+              top: 13em
+              left: 14em
+              width: 24px
+              height: 24px
+              padding: 15px
+              background-color: rgb(200, 200, 200, 0.5)
+              filter: invert(0.20)
+              border-radius: 4px
+              z-index: 2
+          - type: image
+            image: /local/icons/animated/media-card/volumedown-button.png
+            tap_action: call-service
+            service: shell_command.kodi_volumedown
+            style:
+              top: 18em
+              left: 6em
+              width: 24px
+              height: 24px
+              padding: 15px
+              background-color: rgb(255, 255, 255, 0.8)
+              filter: invert(0.20)
+              border-radius: 4px
+              z-index: 2
+          - type: image
+            image: /local/icons/animated/media-card/mute-button.png
+            tap_action: call-service
+            service: shell_command.kodi_mute
+            style:
+              top: 18em
+              left: 10em
+              width: 24px
+              height: 24px
+              padding: 15px
+              background-color: rgb(200, 200, 200, 0.5)
+              filter: invert(0.20)
+              border-radius: 4px
+              z-index: 2
+          - type: image
+            image: /local/icons/animated/media-card/volumeup-button.png
+            tap_action: call-service
+            service: shell_command.kodi_volumeup
+            style:
+              top: 18em
+              left: 14em
+              width: 24px
+              height: 24px
+              padding: 15px
+              background-color: rgb(255, 255, 255, 0.8)
+              filter: invert(0.20)
+              border-radius: 4px
+              z-index: 2
+          - type: image
+            image: /local/icons/animated/media-card/kodi-icon.png
+            entity: media_player.kodi
+            style:
+              top: 18em
+              left: 19em
+              width: 56px
+              height: 56px
+              z-index: 2

@@ -4,36 +4,40 @@
   username: !secret kodi_username
   password: !secret kodi_password
 
-- platform: cast
-  name: chromecastshield
-  host: !secret kodi_host
+# - platform: cast
+#   name: chromecastshield
+#   host: !secret kodi_host
 
-- platform: braviatv
-  name: tvsony
-  host: !secret tvsony_ip
+# - platform: braviatv
+#   name: tvsony
+#   host: !secret tvsony_ip
 
-- platform: cast
-  name: google home 1
-  host: !secret cast_gh1
+# - platform: cast
+#   name: google home 1
+#   host: !secret cast_gh1
 
-- platform: cast
-  name: google home 2
-  host: !secret cast_gh2
+# - platform: cast
+#   name: google home 2
+#   host: !secret cast_gh2
 
-- platform: cast
-  name: google home 2
-  host: !secret cast_gh3
+# - platform: cast
+#   name: google home 2
+#   host: !secret cast_gh3
 
-- platform: cast
-  name: chromecast 1
-  host: !secret cast_cc1
+# - platform: cast
+#   name: chromecast 1
+#   host: !secret cast_cc1
 
 
-- platform: cast
-  name: chromecast 2
-  host: !secret cast_cc2
+# - platform: cast
+#   name: chromecast 2
+#   host: !secret cast_cc2
 
 
 - platform: vlc
   name: vlc
 #  arguments: '--alsa-audio-device=hw:1,0'
+
+- platform: vizio
+  host: 192.168.0.32:9000
+  access_token: 8ajypl40dt

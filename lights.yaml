@@ -106,6 +106,17 @@
           entity_id: switch.bureau
 
 #///////////////////////////////////////////////////////////////////
+      chambrebas:
+        friendly_name: "Chambre bas"
+      #  value_template: "{{switch.chambre.state}}"
+        value_template: "{{ is_state('switch.chambrebas', 'on') }}"
+        turn_on:
+          service: switch.turn_on
+          entity_id: switch.chambrebas
+        turn_off:
+          service: switch.turn_off
+          entity_id: switch.chambrebas
+#///////////////////////////////////////////////////////////////////
       entree_in:
         friendly_name: "Entrée Intérieur"
       #  value_template: "{{switch.chambre.state}}"
@@ -138,3 +149,13 @@
         turn_off:
           service: switch.turn_off
           entity_id: switch.atelier
+#///////////////////////////////////////////////////////////////////
+      allchambre:
+        friendly_name: "Toute les lumières de la chambre"
+        value_template: "{{ is_state('group.chambre_lights', 'on') }}"
+        turn_on:
+          service: homeassistant.turn_on
+          entity_id: group.chambre_lights
+        turn_off:
+          service: homeassistant.turn_off
+          entity_id: group.chambre_lights

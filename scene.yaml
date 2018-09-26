@@ -3,7 +3,6 @@
     light.coralie: off
     light.coralie_lit: off
     light.jumeaux: off
-    switch.veilleuse: off
     light.level: off
     light.salon_1: off
     light.salon_2: off
@@ -23,27 +22,33 @@
     light.entree_in: off
     light.entree_out: off
     light.escalier: off
+    light.chambrebas: off
     light.gateway_light_7811dcb21414: off
     light.atelier: off
     light.exterieur_balcon: off
+    light.hue_white_lamp_1: off
+    light.hue_white_lamp_2: off
+    light.hue_white_lamp_1_2: off
+    light.haut_plafond: off
+    light.couloir_lumieres_principales: false
     #lockdoor
 
-- name: Couloir30
-  entities:
-    light.level_4:
-       state: on
-       brightness: 30
+# - name: Couloir30
+#   entities:
+#     light.level_4:
+#        state: on
+#        brightness: 30
 
-- name: Couloir70
-  entities:
-    light.level_4:
-       state: on
-       brightness: 70
-- name: Couloir255
-  entities:
-    light.level_4:
-       state: on
-       brightness: 255
+# - name: Couloir70
+#   entities:
+#     light.level_4:
+#        state: on
+#        brightness: 70
+# - name: Couloir255
+#   entities:
+#     light.level_4:
+#        state: on
+#        brightness: 255
 
 #- name: SalleDeBainAtNight5
 #  entities:

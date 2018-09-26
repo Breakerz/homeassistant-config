@@ -11,6 +11,10 @@ switch.phillips_tv_power:
   icon: mdi:television
 switch.phillips_tv_channel:
   icon: mdi:television
+light.haut_plafond:
+  friendly_name: Plafond salle de bain
+light.couloir_lumieres_principales:
+  friendly_name: Couloir
 switch.phillips_tv_mute:
   icon: mdi:television
 switch.phillips_tv_1:
@@ -70,4 +74,33 @@ light.table_1:
 light.table_2:
   icon: mdi:ceiling-light
 light.level_4:
-  friendly_name: Couloir
+  friendly_name: DEBRANCHER
+binary_sensor.switch_158d0001be5c07:
+  hidden: true
+binary_sensor.switch_158d000201a2ef:
+  hidden: true
+binary_sensor.switch_158d0001be5b44: {}
+sensor.battery_door_laveuse_sensor:
+  icon: mdi:car-battery
+sensor.battery_door_patio_sensor :
+  icon: mdi:car-battery
+sensor.battery_motion_salon_sensor:
+  icon: mdi:car-battery
+sensor.battery_motion_soussol_sensor:
+  icon: mdi:car-battery
+sensor.battery_motion_bain_sensor:
+  icon: mdi:car-battery
+sensor.battery_button_chambre_sensor:
+  icon: mdi:car-battery
+sensor.battery_button_patricia_sensor:
+  icon: mdi:car-battery
+sensor.battery_button_patrick_sensor:
+  icon: mdi:car-battery
+sensor.battery_leak_sensor:
+  icon: mdi:car-battery
+sensor.battery_frontdoor_lock:
+  icon: mdi:car-battery  
+sensor.patrick_status:
+  entity_picture: /local/deadpool.jpg
+sensor.patricia_status:
+  entity_picture: /local/wonderwoman.jpg                

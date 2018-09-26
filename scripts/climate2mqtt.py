@@ -31,22 +31,31 @@ def wrong_topic(client, msg):
 	print(str(msg.topic))
 
 def set_temperature(client, msg):
-	print("set_temperature")
-	client.publish("hvac/central/temperature/state", str(msg.payload, encoding='ascii'))
+	global gmode
+	print("set_temperature, gmode={0}".format(gmode))
+	client.publish("hvac/central/temperature/state", str(msg.payload, encoding='ascii'))    
 	action = (TotalComfortAction.COOL) if (gmode == 3) else TotalComfortAction.HEAT
 	totalcomfort.execute(action, str(msg.payload));
 
 def get_status(client, msg):
-	print("status")
+	global gmode
+	print("get_status")
+    
 	j = totalcomfort.execute(TotalComfortAction.JSON);
+    
+    #todo check if i = None
+    
 	client.publish("hvac/central/temperature/current", j['latestData']['uiData']["DispTemperature"])
-	client.publish("hvac/central/temperature/state", j['latestData']['uiData']["HeatSetpoint"])
+	gmode = j['latestData']['uiData']["SystemSwitchPosition"]
+	if (gmode == 3):
+		client.publish("hvac/central/temperature/state", j['latestData']['uiData']["CoolSetpoint"])
+	else:
+		client.publish("hvac/central/temperature/state", j['latestData']['uiData']["HeatSetpoint"])
+	
 	fan_state = ("auto") if (j['latestData']['fanData']["fanMode"] == "0") else "always_on"
 	client.publish("hvac/central/fan/state", fan_state)
-
-	global gmode
 	mode = "bleh"
-	gmode = j['latestData']['uiData']["SystemSwitchPosition"]
+
 	if (gmode == 0):
 		mode = 'emheat'
 	if (gmode == 1):
@@ -89,6 +98,8 @@ client.on_message = on_message
 #dir = os.path.dirname(os.path.realpath(__file__))
 credentials = yaml.load(open('./credentials.yaml'))
 client.connect(credentials['mqtt_broker_host'], 1883, 60)
+
+client.publish("hvac/central/status", "")
 
 # Blocking call that processes network traffic, dispatches callbacks and
 # handles reconnecting.

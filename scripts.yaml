@@ -27,6 +27,20 @@ tv_insignia_sleep_5minutes:
     data:
       entity_id : 'switch.insignia_sleep'
 
+notify_sonette:
+  sequence:
+    - service : notify.shieldtv
+      data: 
+        message : "ON SONNE A LA PORTE"
+        title : "Porte Avant"
+        data :
+          color : "pink"
+          
+    - service: notify.pushbullet
+      data_template:
+        title: On sonne a la porte
+        message: On Sonne a la porte      
+
 #############################################
 boot_event:
   sequence:
@@ -34,20 +48,59 @@ boot_event:
       data:
         entity_id: climate.solarium_thermostat
         operation_mode: "off"
+    - service: python_script.populate_catchall_group
+      data:
+        domains_to_ignore: "zone,group,automation,script,zwave"
+        target_group: "group.catchall"
+    - delay: 00:05 # wait 
+    - service: homekit.start
 
+############################################
+scan_for_new_devices:
+  sequence:
+    - service : python_script.populate_catchall_group
 #############################################
+
+set_night_mode:
+  sequence:
+    - service: script.set_night_away_common
+    - service: notify.pushbullet
+      data:
+        title: Bonne Nuit
+        message: Night mode activated    
+
 set_away_mode:
+  sequence:
+    - service: script.set_night_away_common
+    - service: homeassistant.turn_off
+      data :
+        entity_id: switch.veilleuse    
+    - service: notify.pushbullet
+      data:
+        title: See ya!
+        message: Away mode activated            
+
+set_night_away_common:
   sequence:
     - service: script.close_led
     - service: scene.turn_on
       data :
         entity_id: scene.byebye
+    - service: lock.lock
+      data: 
+        entity_id: lock.schlage_be469_touchscreen_deadbolt_locked
+    - service: script.turn_off_media
     - service: script.tv_cuisine_sleep
-    - service: notify.pushbullet
+#############################################
+turn_off_media:
+  sequence:
+    - service: media_player.turn_off
       data:
-        title: byebye
-        message: Away mode activated
-
+        entity_id: media_player.chromecast_cuisine
+    - service: media_player.turn_off
+      data:
+        entity_id: media_player.chromecast_soussol
+#############################################        
 tv_cuisine_sleep:
   sequence:
     - service: switch.broadlink_send_packet_192_168_0_19
@@ -58,7 +111,16 @@ tv_cuisine_sleep:
       data: 
         packet : JgBQAAABKJIVERQ2FTYUERUQFREUERU2FDYVEBU2FBEVERQRFRAVERQ2FTYUERUQFTYUERURFBEVERQRFTUVNhQRFTUVNhQ2FQAFcgABKEgVAA0FAAAAAAAAAAA===
 
-
+diffuser_power:
+  sequence:
+    - service: switch.broadlink_send_packet_192_168_0_19
+      data: 
+        packet : JgBQAAABMZIWDxcQFg8WEBYPFxAVEBYQFjMXNBU1FzQVNRY0FzQWNBcPFhAWDxcPFg8XEBYPFg8XNBU1FjQWNRY0FjQXNBczFwAFKgABMEcXAA0FAAAAAAAAAAA===
+    - service: homeassistant.toggle
+      data:
+        entity_id: input_boolean.diffuseur
+        
+#############################################
 set_bath_mode:
   sequence:
     - service: input_boolean.turn_on
@@ -67,7 +129,7 @@ set_bath_mode:
     - service: light.turn_off
       data:
         entity_id: light.level
-
+#############################################
 close_led:
   sequence:
     - service: switch.turn_on
@@ -83,8 +145,22 @@ close_led:
       data:
         entity_id: switch.led_sous_armoire_power
 
-
-
+#############################################
+get_camera_entree:
+  sequence:
+    - service : media_player.play_media
+      data:
+        entity_id: media_player.chromecast_cuisine
+        media_content_type: "VIDEO"
+        media_content_id : "http://192.168.0.77:8080/entree.m3u8"
+#############################################
+get_camera_cabanon:
+  sequence:
+    - service : media_player.play_media
+      data:
+        entity_id: media_player.chromecast_cuisine
+        media_content_type: "VIDEO"
+        media_content_id : "http://192.168.0.77:8080/cabanon.m3u8"        
 #############################################
 wakeme:
   sequence:
@@ -98,7 +174,7 @@ wakeme:
     - service: media_player.volume_set
       data:
         entity_id: media_player.cuisine
-        volume_level: 0.1
+        volume_level: 0.2
     - service: media_player.play_media
       data:
         entity_id: media_player.cuisine
@@ -107,12 +183,12 @@ wakeme:
     - service: media_player.volume_set
       data:
         entity_id: media_player.cuisine
-        volume_level: 0.1
+        volume_level: 0.2
     - delay: 00:00:30
     - service: media_player.volume_set
       data:
         entity_id: media_player.cuisine
-        volume_level: 0.2
+        volume_level: 0.3
     - delay: 00:01:00
     - service: media_player.volume_set
       data:
@@ -149,3 +225,11 @@ wakeme:
       data:
         entity_id: light.level_2
         brightness: 180
+
+pihole_on:
+  sequence:
+  - service: shell_command.pihole_on
+
+pihole_off:
+  sequence:
+  - service: shell_command.pihole_off

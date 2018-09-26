@@ -4,17 +4,20 @@
 #    - group.mylight
 #    - group.myswitch
 
-home_view: #Future default view=============================
+default_view: #Future default view=============================
   view: true
   control: hidden
   name: home
   icon: mdi:home
   entities:
-    - device_tracker.iphone_patricia
-    - device_tracker.iphone_patrick
-    - sensor.home_temperature
+    - climate.central
+    - group.people_status    
+    - group.cam
     - scene.byebye
-    - group.mode_group
+    - group.mode_group    
+    - media_player.vlc
+    - group.hydroquebec
+    - binary_sensor.portes
 
 
 chambre_view:
@@ -23,6 +26,7 @@ chambre_view:
   name: chambre
   icon: mdi:hotel
   entities:
+    - light.chambre_pat_et_pat
     - light.chambre
     - light.chevets
     - group.wakeup_group
@@ -33,16 +37,20 @@ cuisine_view:
   control: hidden
   icon: mdi:food-fork-drink
   entities:
+    - sensor.illumination_7811dcb21414
     - light.table_1
     - light.table_2
     - light.level_2
     - light.level_3
-    - light.level_4
+    - light.couloir_lumieres_principales
     - light.gateway_light_7811dcb21414
-    - light.entree_interieur_light
+    - light.entree_in
     - group.led_group
-    - media_player.google_home_cuisine
+    - media_player.cuisine
+    - media_player.chromecast_cuisine
     - group.television_sony_group
+    - binary_sensor.door_window_sensor_158d0002251481
+    - switch.diffuseur
 
 kids_view:
   name: Enfants
@@ -61,10 +69,20 @@ salon_view:
   control: hidden
   icon: mdi:television-classic
   entities:
+    - binary_sensor.door_window_sensor_158d00026aee2c
+    - binary_sensor.motion_sensor_158d0001e0abd1
+    - sensor.illumination_158d0001e0abd1
     - light.salon_1
     - light.salon_2
     - light.couloir_level
+    - media_player.shield
+    - media_player.kodishield
+    - media_player.viziocastaudio4044
+    - switch.barresonpower
+    - switch.barresonvolume
     - group.television_phillips
+    - sensor.nvidia_current_app
+    - sensor.nvidia_current_focus
 
 
 
@@ -74,7 +92,11 @@ salledebain_view:
   icon: mdi:duck
   control: hidden
   entities:
+    - light.haut_plafond
     - light.level
+    - sensor.illumination_158d0002012d30
+    - binary_sensor.motion_sensor_158d0002012d30
+    - binary_sensor.bathroom_room_movement
 
 solarium_view:
   name: solarium
@@ -95,13 +117,23 @@ soussol_view:
   icon: mdi:stairs
   control: hidden
   entities:
+    - sensor.illumination_158d0001e0b1f6
+    - binary_sensor.motion_sensor_158d0001e0b1f6
     - light.laveusesecheuse
     - light.bureau
     - light.salon_soussol_1
     - light.salon_soussol_2
     - light.escalier
     - light.atelier
+    - light.chambrebas
     - group.salle_jeux
+    - media_player.bureau
+    - media_player.chromecast_soussol
+    - media_player.salon #atelier
+    - media_player.tvsony
+    - binary_sensor.door_window_sensor_158d000204befb
+    - binary_sensor.water_leak_sensor_158d0002369214
+    - input_boolean.auto_motion_sousol
 
 exterieur_view:
   name: Extérieur
@@ -112,7 +144,7 @@ exterieur_view:
     - switch.deco_ext
     - sensor.humidity_ext
     - sensor.temp_ext
-    - light.entree_exterieur_light
+    - light.entree_out
     - light.lampadaire
     - light.exterieur_balcon
     - light.exterieur_coin
@@ -122,25 +154,88 @@ exterieur_view:
 network_view:
   name: Network
   view: true
-  icon: mdi:settings
-  control: hidden
-  entities:
-    - group.computer_group
-
-automation_view:
-  name: automation
-  view : true
   icon: mdi:robot
   control: hidden
   entities:
-    - sun.sun
-    - group.all_automations
-    - group.all_scripts
-    - group.all_devices
-    - group.all_light
-    - group.all_switchs
+    - group.battery_level
+    - group.computer_group
+    - group.ipwebcam
+    - group.basicstuff
+    - group.telephone_info
+    - group.catchall
+    - group.lock
+
+
+
+
 
 #####Group==================================================
+
+people_status:
+  name: People Status
+  entities:
+    - sensor.patrick_status
+    - sensor.patricia_status
+
+
+ipwebcam:
+  name: Android IP Webcam
+  entities:
+    - camera.ip_webcam
+    - sensor.ip_webcam_battery_level
+    - sensor.ip_webcam_battery_temperature
+    - sensor.ip_webcam_battery_voltage
+    - sensor.ip_webcam_light_level
+    - sensor.ip_webcam_motion
+    - sensor.ip_webcam_proximity
+    - sensor.ip_webcam_sound
+    - switch.ip_webcam_focus
+    - switch.ip_webcam_frontfacing_camera
+    - switch.ip_webcam_night_vision
+    - switch.ip_webcam_overlay
+    - switch.ip_webcam_torch
+    - switch.ip_webcam_video_recording
+
+
+
+lock:
+  name: Verrou
+  entities:
+    - lock.schlage_be469_touchscreen_deadbolt_locked
+    - sensor.schlage_be469_touchscreen_deadbolt_access_control
+    - sensor.schlage_be469_touchscreen_deadbolt_alarm_level
+    - sensor.schlage_be469_touchscreen_deadbolt_alarm_type
+    - sensor.schlage_be469_touchscreen_deadbolt_burglar
+    - sensor.schlage_be469_touchscreen_deadbolt_power_management
+    - sensor.schlage_be469_touchscreen_deadbolt_sourcenodeid
+    - sensor.schlage_be469_touchscreen_deadbolt_system
+    - zwave.schlage_be469_touchscreen_deadbolt    
+
+basicstuff:
+  name: Système
+  entities:
+    - sun.sun
+    - sensor.time
+    - sensor.yr_symbol
+    - sensor.date
+  
+
+occupancy:
+  name: Occupation
+  entities:
+    - device_tracker.iphone_patricia
+    - device_tracker.iphone_patrick  
+    - automation.patrick_occupancy
+    - binary_sensor.patrick_occupancy_on
+    - binary_sensor.patricia_occupancy_on
+    - binary_sensor.nut_occupancy_on
+    - input_boolean.patrick_occupancy
+    - input_boolean.patricia_occupancy
+    - input_boolean.nut_occupancy
+    - sensor.nut_cuisine
+    - sensor.nashville_cuisine
+    - sensor.patricia_cuisine
+    - binary_sensor.bayesian_presence
 
 ##Automation
 
@@ -151,6 +246,7 @@ salle_jeux:
     - light.salon_soussol_1
     - light.salon_soussol_2
 
+
 cuisine_lights:
   name: Lumières cuisine
   icon: mdi:food-fork-drink
@@ -160,6 +256,16 @@ cuisine_lights:
     - light.level_2
     - light.level_3
     - light.entree_interieur_light
+
+
+chambre_lights:
+  name: Lumieres Chambres
+  entities:
+    - light.chevets
+    - light.chambre
+    - light.hue_white_lamp_1
+    - light.hue_white_lamp_2
+    - light.hue_white_lamp_1_2
     
 ##Scripts
 
@@ -175,6 +281,7 @@ temp_solarium_group:
     - sensor.solarium_humidity
 
 
+
 computer_group:
   name : Computer
   icon: mdi:clock
@@ -184,7 +291,9 @@ computer_group:
     - switch.miami
     - sensor.cpu_odroid_xu4
     - sensor.cpu_orange_pi
+    - sensor.cpu_raspberry_pi
     - sensor.log_db_file_size
+    - switch.pihole
 
 wakeup_group:
   name: Réveille Matin
@@ -226,51 +335,103 @@ led_group:
     - switch.led_sa_brightness_down
     - switch.led_sa_brightness_up
 
-
-
-
-television_sony_group:
-  name: television Cuisine
-  icon: mdi:television-classic
+hydroquebec:
+  name: Hydro Québec
+  icon: mdi:flash
   control: hidden
   entities:
-    - switch.sonytv_power
-    - switch.sonytv_0
-    - switch.sonytv_1
-    - switch.sonytv_2
-    - switch.sonytv_3
-    - switch.sonytv_4
-    - switch.sonytv_5
-    - switch.sonytv_6
-    - switch.sonytv_7
-    - switch.sonytv_8
-    - switch.sonytv_9
-    - switch.sonytv_dot
-    - switch.sonytv_ch_down
-    - switch.sonytv_ch_up
-    - switch.sonytv_display
-    - switch.sonytv_enter
-    - switch.sonytv_home
-    - switch.sonytv_input
-    - switch.sonytv_mute
-    - switch.sonytv_options
-    - switch.sonytv_pic_off
-    - switch.sonytv_return
-    - switch.sonytv_volume_down
-    - switch.sonytv_volume_up
+    - sensor.hydroquebec_period_total_bill
+    - sensor.hydroquebec_period_total_consumption
+    - sensor.hydroquebec_period_total_days
+    - sensor.hydroquebec_period_higher_price_consumption
+    - sensor.hydroquebec_period_lower_price_consumption
+    - sensor.hydroquebec_period_mean_daily_consumption
+    - sensor.hydroquebec_yesterday_higher_price_consumption
+    - sensor.hydroquebec_yesterday_lower_price_consumption
+    - sensor.hydroquebec_yesterday_total_consumption
 
+# television_sony_group:
+#   name: television Sous-sol
+#   icon: mdi:television-classic
+#   control: hidden
+#   entities:
+#     - switch.sonytv_power
+#     - switch.sonytv_0
+#     - switch.sonytv_1
+#     - switch.sonytv_2
+#     - switch.sonytv_3
+#     - switch.sonytv_4
+#     - switch.sonytv_5
+#     - switch.sonytv_6
+#     - switch.sonytv_7
+#     - switch.sonytv_8
+#     - switch.sonytv_9
+#     - switch.sonytv_dot
+#     - switch.sonytv_ch_down
+#     - switch.sonytv_ch_up
+#     - switch.sonytv_display
+#     - switch.sonytv_enter
+#     - switch.sonytv_home
+#     - switch.sonytv_input
+#     - switch.sonytv_mute
+#     - switch.sonytv_options
+#     - switch.sonytv_pic_off
+#     - switch.sonytv_return
+#     - switch.sonytv_volume_down
+#     - switch.sonytv_volume_up
+
+catchall:
+  name: Items non-groupé
+  control: hidden
+  icon: mdi:magnify
+  entities:
+    - script.scan_for_new_devices
+
+cam:
+  name: camera
+  control: hidden
+  icon: mdi:camcorder
+  entities:
+    - camera.cam
+    - camera.ip_webcam
+
+battery_level:
+  name : Niveau de batteries
+  control: hidden
+  icon: mdi:car-battery
+  entities:
+    - sensor.battery_door_laveuse_sensor
+    - sensor.battery_door_patio_sensor 
+    - sensor.battery_motion_salon_sensor
+    - sensor.battery_motion_soussol_sensor
+    - sensor.battery_motion_bain_sensor
+    - sensor.battery_button_chambre_sensor
+    - sensor.battery_button_patricia_sensor
+    - sensor.battery_button_patrick_sensor
+    - sensor.battery_leak_sensor
+    - sensor.battery_frontdoor_lock
+
+telephone_info:
+  name : Telephone
+  control: hidden
+  icon: mdi:cellphone-iphone
+  entities:
+    - sensor.nashville_battery_state
+    - sensor.nashville_battery_level
+    - sensor.iphone_de_haissable_battery_state
+    - sensor.iphone_de_haissable_battery_level
 
 television_phillips:
   name: Télévision Salon
   control: hidden
   icon: mdi:television-classic
   entities:
-    - switch.phillips_tv_power
-    - switch.phillips_tv_channel
-    - switch.phillips_tv_volume
-    - switch.phillips_tv_mute
-    - switch.phillips_tv_1
-    - switch.phillips_tv_2
-    - switch.phillips_tv_3
-    - switch.phillips_tv_4
-    - switch.phillips_tv_5
+    - switch.tv_phillips
+    - switch.tv_phillips_channel
+    - switch.tv_phillips_volume
+    - switch.tv_phillips_mute
+    - switch.tv_phillips_1
+    - switch.tv_phillips_2
+    - switch.tv_phillips_3
+    - switch.tv_phillips_4
+    - switch.tv_phillips_5

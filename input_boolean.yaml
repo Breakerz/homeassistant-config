@@ -25,3 +25,23 @@ mode_movie:
 mode_night:
   name: Mode Nuit
   icon: mdi:brightness-3
+
+
+patrick_occupancy:
+  name: Patrick Occupancy
+  
+patricia_occupancy:
+  name: Patricia Occupancy  
+
+nut_occupancy:
+  name: Nut Occupancy  
+  
+sonnette:
+  name: Sonnette
+
+
+diffuseur:
+  name: diffuseur  
+
+auto_motion_sousol:
+  name: Lumières du Sous-Sol Automatique

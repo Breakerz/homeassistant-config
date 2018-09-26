@@ -1,6 +1,31 @@
+- platform: template
+  switches:
+
+    pihole:
+      value_template: '{{ states.sensor.pihole_status.state == "enabled" }}'
+      turn_on:
+        service: script.turn_on
+        entity_id: script.pihole_on
+      turn_off:
+        service: script.turn_on
+        entity_id: script.pihole_off
+
+    diffuseur:
+      value_template: "{{ is_state('input_boolean.diffuseur','on') }}"
+
+      turn_off:
+        service: script.turn_on
+        entity_id: script.diffuser_power
+
+      turn_on:
+        service: script.turn_on
+        entity_id: script.diffuser_power
 
 - platform: transmission
-  host: !secret miami_host
+  host: !secret transmission_host
+  username: !secret transmission_username
+  password: !secret transmission_password
+  port: !secret transmission_port
 
 
 - platform: wake_on_lan
@@ -9,7 +34,6 @@
   mac_address: !secret miami_mac
   turn_off:
       service: shell_command.hibernate_miami_cmd
-
 
 - platform: mqtt
   name: veilleuse
@@ -70,6 +94,8 @@
 - platform: tplink
   host: !secret tplink_host_atelier
 
+- platform: tplink
+  host: !secret tplink_host_chambrebas
 
 
 # - platform: command_line
@@ -327,3 +353,22 @@
       # input =
       # info
       # last channel =
+
+- platform: command_line
+  switches:
+    barresonpower:
+      friendly_name: Barre de son
+      command_on: "/usr/bin/curl -k -H \"Content-Type: application/json\" -H \"AUTH: 8ajypl40dt\" -X PUT -d '{\"KEYLIST\": [{\"CODESET\": 11,\"CODE\": 1,\"ACTION\":\"KEYPRESS\"}]}' https://192.168.0.32:9000/key_command/"
+      command_off: "/usr/bin/curl -k -H \"Content-Type: application/json\" -H \"AUTH: 8ajypl40dt\" -X PUT -d '{\"KEYLIST\": [{\"CODESET\": 11,\"CODE\": 0,\"ACTION\":\"KEYPRESS\"}]}' https://192.168.0.32:9000/key_command/"
+      command_state: "/usr/bin/curl -k -H \"Content-Type: application/json\" -H \"AUTH: 8ajypl40dt\" -X GET https://192.168.0.32:9000/state/device/power_mode"
+      value_template: >
+        {% if value_json.ITEMS.0.VALUE == 1 %}
+          true
+        {% else %}
+          false
+        {% endif %}
+  
+    barresonvolume:
+      friendly_name: Barre de son Volume
+      command_on: "/usr/bin/curl -k -H \"Content-Type: application/json\" -H \"AUTH: 8ajypl40dt\" -X PUT -d '{\"KEYLIST\": [{\"CODESET\": 5,\"CODE\": 1,\"ACTION\":\"KEYPRESS\"}]}' https://192.168.0.32:9000/key_command/"
+      command_off: "/usr/bin/curl -k -H \"Content-Type: application/json\" -H \"AUTH: 8ajypl40dt\" -X PUT -d '{\"KEYLIST\": [{\"CODESET\": 5,\"CODE\": 0,\"ACTION\":\"KEYPRESS\"}]}' https://192.168.0.32:9000/key_command/"

@@ -17,13 +17,43 @@ homeassistant:
 frontend: !include frontend.yaml
 config:
 
+#logger:
+#  default: info
+
 http:
   api_password: !secret http_password
   ssl_certificate: !secret ssl_certificate
   ssl_key: !secret ssl_key
   # Uncomment this if you are using SSL or running in Docker etc
   base_url: !secret base_url
+  #server_port: 443
 
+python_script:
+
+
+
+influxdb:
+  host: !secret influxdb_host
+  include:
+    entities:
+       - sensor.solarium_humidity
+       - sensor.solarium_temp
+       - sensor.humidity_ext
+       - sensor.temp_ext       
+       - sensor.battery_door_laveuse_sensor
+       - sensor.battery_door_patio_sensor 
+       - sensor.battery_motion_salon_sensor
+       - sensor.battery_motion_soussol_sensor
+       - sensor.battery_motion_bain_sensor
+       - sensor.battery_button_chambre_sensor
+       - sensor.battery_button_patricia_sensor
+       - sensor.battery_button_patrick_sensor
+       - sensor.battery_leak_sensor
+       - sensor.illumination_158d0001e0abd1
+       - sensor.illumination_158d0001e0b1f6
+       - sensor.illumination_158d0002012d30       
+       
+       
 
 # Checks for available updates
 # Note: This component will send some information about your system to
@@ -34,6 +64,15 @@ updater:
   # Optional, allows Home Assistant developers to focus on popular components.
   # include_used_components: true
 
+homekit:
+  auto_start: false
+  filter:
+    include_entities:
+      - light.solarium
+      - light.allchambre
+      - light.atelier
+      - light.bureau
+      - light.haut_plafond
 
 duckdns:
   domain: !secret duckdns_domain
@@ -42,12 +81,38 @@ duckdns:
 # Discover some devices automatically
 #discovery:
 
+lutron_caseta:
+    host: !secret lutron_host
+    keyfile: caseta.key
+    certfile: caseta.crt
+    ca_certs: caseta-bridge.crt
+
+android_ip_webcam:
+  - host: !secret androidcam_host
+    port: 8080
+    sensors:
+      - battery_level
+      - battery_temp
+      - battery_voltage
+      - light
+      - motion
+      - proximity
+      - sound
+    switches:
+      - ffc
+      - focus
+      - night_vision
+      - overlay
+      - torch
+      - video_recording
+
 # Allows you to issue voice commands from the frontend in enabled browsers
 conversation:
 
 # Enables support for tracking state changes over time.
 
 recorder:
+  db_url: !secret mysql_url
   purge_interval: 0
 
 history:
@@ -57,6 +122,11 @@ logbook:
 
 # Enables a map showing the location of tracked devices
 map:
+
+panel_iframe:
+  router:
+    title: 'Router'
+    url: 'http://192.168.0.1'
 
 # Track the sun
 sun:
@@ -85,11 +155,14 @@ google_assistant:
   api_key: !secret google_assistant_api_key
   expose_by_default: false
   entity_config:
+    light.chambre_pat_et_pat:
+      expose: true
+      name: Chambre
     light.atelier:
       expose: true
     light.bureau:
       expose: true
-    light.level_4:
+    light.couloir_lumieres_principales:
       expose: true
       name: Couloir
     light.level_2:
@@ -102,6 +175,10 @@ google_assistant:
       expose: true
       name: Miroir
     light.chambre:
+      name: pot masson
+      expose: true
+    light.haut_plafond:
+      name: Salle de bain Haut
       expose: true
     light.chevets:
       expose: true
@@ -148,6 +225,9 @@ google_assistant:
     group.salle_jeux:
       expose: true
       name: Salle de jeux
+    switch.diffuseur:
+      expose: true      
+
 
 # Text to speech
 tts:
@@ -178,6 +258,7 @@ mqtt:
 camera: !include cam.yaml
 input_datetime: !include input_datetime.yaml
 input_boolean: !include input_boolean.yaml
+input_select: !include input_select.yaml
 sensor: !include sensors.yaml
 binary_sensor: !include binary_sensor.yaml
 

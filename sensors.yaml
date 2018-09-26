@@ -5,23 +5,26 @@
     - 'time'
     - 'date'
     
-- platform: ebox
-  username: !secret ebox_username
-  password: !secret ebox_password
-  monitored_variables:
+#- platform: ebox
+#  username: !secret ebox_username
+#  password: !secret ebox_password
+#  monitored_variables:
 #    - balance
 #    - total
 #    - usage
-    - download
-    - upload
+#    - download
+#    - upload
 
-- platform: transmission
-  host: !secret miami_host
-  monitored_variables:
-    - 'current_status'
-    - 'download_speed'
-    - 'upload_speed'
-    - 'active_torrents'
+# - platform: transmission
+#   host: !secret transmission_host
+#   username: !secret transmission_username
+#   password: !secret transmission_password
+#   port: !secret transmission_port  
+#   monitored_variables:
+#     - 'current_status'
+#     - 'download_speed'
+#     - 'upload_speed'
+#     - 'active_torrents'
 
 - platform: hydroquebec
   username: !secret hydroquebec_username
@@ -49,6 +52,45 @@
 #  command: "~/.homeassistant/scripts/gettemp.sh"
 #  unit_of_measurement: "°C"
 
+- platform: command_line
+  name: nvidia_current_app
+  command: "~/.homeassistant/scripts/nvidia_current_app.sh"
+  scan_interval: 20
+
+- platform: command_line
+  name: nvidia_current_focus
+  command: "~/.homeassistant/scripts/nvidia_current_focus.sh"
+  scan_interval: 20
+
+
+
+- platform: mqtt
+  state_topic: 'presence/cuisine/nut'
+  value_template: '{{ value_json.confidence }}'
+  unit_of_measurement: '%'
+  name: 'Nut Cuisine'
+
+
+- platform: mqtt
+  state_topic: 'presence/cuisine/iphonepatrick'
+  value_template: '{{ value_json.confidence }}'
+  unit_of_measurement: '%'
+  name: 'Nashville Cuisine'
+  
+- platform: mqtt
+  state_topic: 'presence/cuisine/iphonepatricia'
+  value_template: '{{ value_json.confidence }}'
+  unit_of_measurement: '%'
+  name: 'Patricia Cuisine'  
+
+# - platform: min_max
+  # name: "Patrick Home Occupancy Confidence"
+  # type: mean
+  # round_digits: 0
+  # entity_ids:
+    # - sensor.nut_cuisine
+    # - sensor.nashville_cuisine
+
 - platform: mqtt
   name: "solarium_temp"
   state_topic: "tele/sonoff10/SENSOR"
@@ -67,14 +109,14 @@
   value_template: "{{value_json.cmd|string}}"
   expire_after: 30
 
-#voisin...?
+# #voisin...?
 - platform: mqtt
   name: "temp_ext"
   state_topic: "RTL_433/Raw/4858"
   value_template: "{{value_json.temperature_C}}"
   unit_of_measurement: "°C"
 
-#voisin...?
+# #voisin...?
 - platform: mqtt
   name: "humidity_ext"
   state_topic: "RTL_433/Raw/4858"
@@ -135,3 +177,108 @@
 #  file_path: /home/homeassistant/.homeassistant/files_sensors/db.json
 #  value_template: '{{ value_json.alarm_hour }}'
 
+- platform: template
+  sensors:
+    battery_door_laveuse_sensor:
+      value_template: '{% if states.binary_sensor.door_window_sensor_158d000204befb is not none %}
+        {{ states.binary_sensor.door_window_sensor_158d000204befb.attributes.battery_level }}
+          {% else %}
+            n/a
+        {% endif %}'
+      unit_of_measurement: '%'
+      friendly_name: 'Batterie Sensor Laveuse'
+
+    battery_door_patio_sensor:
+      value_template: '{% if states.binary_sensor.door_window_sensor_158d0002251481 is not none %}
+        {{ states.binary_sensor.door_window_sensor_158d0002251481.attributes.battery_level }}
+          {% else %}
+            n/a
+        {% endif %}'
+      unit_of_measurement: '%'
+      friendly_name: 'Batterie Sensor Porte Patio'
+
+    battery_motion_salon_sensor:
+      value_template: '{% if states.binary_sensor.motion_sensor_158d0001e0abd1 is not none %}
+        {{ states.binary_sensor.motion_sensor_158d0001e0abd1.attributes.battery_level }}
+          {% else %}
+            n/a
+        {% endif %}'
+      unit_of_measurement: '%'
+      friendly_name: 'Batterie Motion Salon'
+
+    battery_motion_soussol_sensor:
+      value_template: '{% if states.binary_sensor.motion_sensor_158d0001e0b1f6 is not none %}
+        {{ states.binary_sensor.motion_sensor_158d0001e0b1f6.attributes.battery_level }}
+          {% else %}
+            n/a
+        {% endif %}'
+      unit_of_measurement: '%'
+      friendly_name: 'Batterie Motion Sous-Sol'
+
+    battery_motion_bain_sensor:
+      value_template: '{% if states.binary_sensor.motion_sensor_158d0002012d30 is not none %}
+        {{ states.binary_sensor.motion_sensor_158d0002012d30.attributes.battery_level }}
+          {% else %}
+            n/a
+        {% endif %}'
+      unit_of_measurement: '%'
+      friendly_name: 'Batterie Motion Salle de bain'
+
+    battery_button_chambre_sensor:
+      value_template: '{% if states.binary_sensor.switch_158d0001be5b44 is not none %}
+        {{ states.binary_sensor.switch_158d0001be5b44.attributes.battery_level }}
+          {% else %}
+            n/a
+        {% endif %}'
+      unit_of_measurement: '%'
+      friendly_name: 'Batterie Button Chambre'
+
+    battery_button_patricia_sensor:
+      value_template: '{% if states.binary_sensor.switch_158d0001be5c07 is not none %}
+        {{ states.binary_sensor.switch_158d0001be5c07.attributes.battery_level }}
+          {% else %}
+            n/a
+        {% endif %}'
+      unit_of_measurement: '%'
+      friendly_name: 'Batterie Button Patricia'
+
+    battery_button_patrick_sensor:
+      value_template: '{% if states.binary_sensor.switch_158d000201a2ef is not none %}
+        {{ states.binary_sensor.switch_158d000201a2ef.attributes.battery_level }}
+          {% else %}
+            n/a
+        {% endif %}'
+      unit_of_measurement: '%'
+      friendly_name: 'Batterie Button Patrick'    
+
+    battery_leak_sensor:
+      value_template: '{% if states.binary_sensor.water_leak_sensor_158d0002369214 is not none %}
+        {{ states.binary_sensor.water_leak_sensor_158d0002369214.attributes.battery_level }}
+          {% else %}
+            n/a
+        {% endif %}'
+      unit_of_measurement: '%'
+      friendly_name: 'Batterie Leak Sensor'
+
+    battery_frontdoor_lock:
+      value_template: '{% if states.zwave.schlage_be469_touchscreen_deadbolt is not none %}
+        {{ states.zwave.schlage_be469_touchscreen_deadbolt.attributes.battery_level }}
+          {% else %}
+            n/a
+        {% endif %}'
+      unit_of_measurement: '%'
+      friendly_name: 'Batterie Lock Porte Avant'
+
+      
+    patrick_status:
+      value_template: '{{ states.input_select.patrick_status_dropdown.state }}'
+      friendly_name: 'Patrick'
+        
+    patricia_status:
+      value_template: '{{ states.input_select.patricia_status_dropdown.state }}'
+      friendly_name: 'Patricia'
+    
+- platform: rest
+  resource: !secret pi_hole_status
+  name: pihole_status
+  value_template: '{{ value_json.status }}'

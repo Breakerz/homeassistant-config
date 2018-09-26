@@ -1,0 +1,20 @@
+patrick_status_dropdown:
+  name: Patrick
+  options:
+    - Home
+    - Just Arrived
+    - Just Left
+    - Away
+    - Extended Away
+  initial: Home
+
+
+patricia_status_dropdown:
+  name: Patricia
+  options:
+    - Home
+    - Just Arrived
+    - Just Left
+    - Away
+    - Extended Away
+  initial: Home

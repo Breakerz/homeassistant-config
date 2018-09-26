@@ -238,37 +238,38 @@ def execute(action : TotalComfortAction, value = 0, hold_time=1):
 
     if (action == TotalComfortAction.COOL):
       payload["CoolSetpoint"] = value
-      payload["StatusCool"] = 1
-      payload["StatusHeat"] = 1
-      payload["CoolNextPeriod"] = stop_time
+      print("action=COOL")
 
     if (action == TotalComfortAction.HEAT):
       payload["HeatSetpoint"] = value
       payload["StatusCool"] = 1
       payload["StatusHeat"] = 1
       payload["HeatNextPeriod"] = stop_time
+      print("action=HEAT")
 
     if (action == TotalComfortAction.MODE):
       payload["SystemSwitch"] = value
-
+      print("action=MODE")
+      
     if (action == TotalComfortAction.CANCEL):
       payload["StatusCool"] = 0
       payload["StatusHeat"] = 0
+      print("action=CANCEL")
 
     if (action == TotalComfortAction.FAN):
       payload["FanMode"] = value
-
+      print("action=FAN")
 
     # Prep and send payload
 
     location="/portal/Device/SubmitControlScreenChanges"
 
     rawj=json.dumps(payload)
-
+    print("json post :{0}".format(rawj))
     conn = urllib3.connection.HTTPSConnection("mytotalconnectcomfort.com");
     #conn.set_debuglevel(999);
     #print "R4 will send"
-    #print rawj
+
     conn.request("POST", location,rawj,headers)
     r4 = conn.getresponse()
     if (r4.status != 200):
@@ -276,6 +277,8 @@ def execute(action : TotalComfortAction, value = 0, hold_time=1):
       return
     else:
         print("Success in configuring thermostat!")
+        data = r4.read()
+        print(data)
 		#print "R4 got 200"
 
 def printUsage():
